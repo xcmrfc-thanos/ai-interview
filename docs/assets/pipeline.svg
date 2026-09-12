@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="620" viewBox="0 0 1600 620" font-family="Segoe UI, PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="20%" r="100%">
+      <stop offset="0%" stop-color="#0A1A1E"/>
+      <stop offset="60%" stop-color="#071114"/>
+      <stop offset="100%" stop-color="#050A0C"/>
+    </radialGradient>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2DD4BF"/><stop offset="100%" stop-color="#38BDF8"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38BDF8"/><stop offset="100%" stop-color="#818CF8"/>
+    </linearGradient>
+    <linearGradient id="g3" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#818CF8"/><stop offset="100%" stop-color="#C084FC"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#10262B" stroke-width="1" opacity="0.45"/>
+    </pattern>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#2DD4BF"/>
+    </marker>
+    <filter id="glowSm" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="2.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="620" fill="url(#bg) #050A0C"/>
+  <rect width="1600" height="620" fill="url(#grid) #050A0C"/>
+  <rect x="0" y="0" width="1600" height="3" fill="url(#g1)" opacity="0.85"/>
+  <text x="800" y="54" text-anchor="middle" font-size="34" font-weight="700" fill="#E8EEF0">实时 Copilot 主链路 · 采集 → 转写 → 话轮 → 流式回答</text>
+
+  <!-- 第一行 L→R：①②③ -->
+  <rect x="90" y="110" width="400" height="170" rx="12" fill="#0D1619" stroke="url(#g1)" stroke-width="2" filter="url(#glowSm)"/>
+  <text x="120" y="148" font-size="16" font-weight="700" fill="#2DD4BF">① 采集</text>
+  <text x="290" y="182" text-anchor="middle" font-size="20" font-weight="600" fill="#E8EEF0">AudioWorklet</text>
+  <text x="290" y="212" text-anchor="middle" font-size="15" fill="#94A3AE">PCM16 / 16kHz / 100ms 帧</text>
+  <text x="290" y="240" text-anchor="middle" font-size="15" fill="#94A3AE">系统声 + 麦克风双轨 · 声纹分流</text>
+  <text x="290" y="264" text-anchor="middle" font-size="13" fill="#647480">麦克风授权失败 → 明确降级提示</text>
+
+  <rect x="600" y="110" width="400" height="170" rx="12" fill="#0D1619" stroke="url(#g2)" stroke-width="2" filter="url(#glowSm)"/>
+  <text x="630" y="148" font-size="16" font-weight="700" fill="#38BDF8">② 传输</text>
+  <text x="800" y="182" text-anchor="middle" font-size="20" font-weight="600" fill="#E8EEF0">WS v2 二进制帧</text>
+  <text x="800" y="212" text-anchor="middle" font-size="15" fill="#94A3AE">'AI' 魔数 + seq 序号 + 来源码</text>
+  <text x="800" y="240" text-anchor="middle" font-size="15" fill="#94A3AE">ACK 确认 · 背压丢弃（≈500ms 队列）</text>
+  <text x="800" y="264" text-anchor="middle" font-size="13" fill="#647480">断线 reconnecting 30s 恢复窗</text>
+
+  <rect x="1110" y="110" width="400" height="170" rx="12" fill="#0D1619" stroke="url(#g3)" stroke-width="2" filter="url(#glowSm)"/>
+  <text x="1140" y="148" font-size="16" font-weight="700" fill="#818CF8">③ 转写</text>
+  <text x="1310" y="182" text-anchor="middle" font-size="20" font-weight="600" fill="#E8EEF0">ASR 流式识别</text>
+  <text x="1310" y="212" text-anchor="middle" font-size="15" fill="#94A3AE">partial 增量 / final 整句</text>
+  <text x="1310" y="240" text-anchor="middle" font-size="15" fill="#94A3AE">builtin sherpa-onnx 或 gateway</text>
+  <text x="1310" y="264" text-anchor="middle" font-size="13" fill="#647480">QC / 长文案建议 offline ASR</text>
+
+  <line x1="492" y1="195" x2="596" y2="195" stroke="#2DD4BF" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="1002" y1="195" x2="1106" y2="195" stroke="#2DD4BF" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- 折线 ③→④ -->
+  <path d="M 1310 280 L 1310 340 L 290 340 L 290 396" fill="none" stroke="#2DD4BF" stroke-width="2.5" marker-end="url(#arr)"/>
+  <text x="800" y="330" text-anchor="middle" font-size="15" fill="#5EEAD4">final（1.2s 静音判停 · 短问句延迟判停）触发话轮完成</text>
+
+  <!-- 第二行 R→L：④⑤⑥ -->
+  <rect x="90" y="400" width="400" height="170" rx="12" fill="#0D1619" stroke="url(#g3)" stroke-width="2" filter="url(#glowSm)"/>
+  <text x="120" y="438" font-size="16" font-weight="700" fill="#6EE7B7">⑥ 上屏</text>
+  <text x="290" y="472" text-anchor="middle" font-size="20" font-weight="600" fill="#E8EEF0">逐字平滑</text>
+  <text x="290" y="502" text-anchor="middle" font-size="15" fill="#94A3AE">use-smooth-text 追赶式上屏 · 打字光标</text>
+  <text x="290" y="530" text-anchor="middle" font-size="15" fill="#94A3AE">转写气泡按说话人分级 · reduced-motion 降级</text>
+  <text x="290" y="554" text-anchor="middle" font-size="13" fill="#647480">aria-live 读屏播报 final 与错误</text>
+
+  <rect x="600" y="400" width="400" height="170" rx="12" fill="#0D1619" stroke="url(#g2)" stroke-width="2" filter="url(#glowSm)"/>
+  <text x="630" y="438" font-size="16" font-weight="700" fill="#818CF8">⑤ 生成</text>
+  <text x="800" y="472" text-anchor="middle" font-size="20" font-weight="600" fill="#E8EEF0">LLM 流式</text>
+  <text x="800" y="502" text-anchor="middle" font-size="15" fill="#94A3AE">NDJSON：要点 → 参考回答 → 追问</text>
+  <text x="800" y="530" text-anchor="middle" font-size="15" fill="#94A3AE">回答线程池有界 · 取消令牌 · 事实边界 prompt</text>
+  <text x="800" y="554" text-anchor="middle" font-size="13" fill="#647480">模型来自设置页（读库优先）或 .env 兜底</text>
+
+  <rect x="1110" y="400" width="400" height="170" rx="12" fill="#0D1619" stroke="url(#g1)" stroke-width="2" filter="url(#glowSm)"/>
+  <text x="1140" y="438" font-size="16" font-weight="700" fill="#2DD4BF">④ 话轮</text>
+  <text x="1310" y="472" text-anchor="middle" font-size="20" font-weight="600" fill="#E8EEF0">Utterance 装配</text>
+  <text x="1310" y="502" text-anchor="middle" font-size="15" fill="#94A3AE">partial 合并 · 说话人分流 · 当前题写入</text>
+  <text x="1310" y="530" text-anchor="middle" font-size="15" fill="#94A3AE">answer_queued → answer_delta → completed</text>
+  <text x="1310" y="554" text-anchor="middle" font-size="13" fill="#647480">结束闭环面板：一键生成复盘</text>
+
+  <line x1="1110" y1="485" x2="1004" y2="485" stroke="#2DD4BF" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="600" y1="485" x2="494" y2="485" stroke="#2DD4BF" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <text x="800" y="606" text-anchor="middle" font-size="15" fill="#647480">py 与 java 两侧同构实现 ｜ 契约：docs/api-contract.md §6 ｜ 事件：started / transcript_partial / final / utterance_completed / answer_delta / answer_completed</text>
+</svg>

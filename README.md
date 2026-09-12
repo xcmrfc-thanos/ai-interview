@@ -1,8 +1,6 @@
 <div align="center">
 
-# 面试 Copilot · ai-interview
-
-**岗位准备 · 实时辅助 · 模拟面试 · 统一复盘**
+<img src="docs/assets/banner-main.svg" width="100%" alt="面试 Copilot · ai-interview"/>
 
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org)
 [![Flask](https://img.shields.io/badge/Flask-3.1-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com)
@@ -26,7 +24,7 @@
 
 ## 📖 目录导航
 
-[✨ 项目亮点](#-项目亮点) ｜ [🏗️ 总体架构](#️-总体架构) ｜ [🧩 服务矩阵](#-服务矩阵) ｜ [📁 仓库结构](#-仓库结构) ｜ [🚀 快速开始](#-快速开始) ｜ [🔌 端口规划](#-端口规划) ｜ [🤖 模型配置](#-模型配置设置页加密存储) ｜ [⚙️ 环境变量](#️-环境变量) ｜ [🧪 测试与验收](#-测试与验收) ｜ [📚 文档地图](#-文档地图) ｜ [⚠️ 业务边界](#️-业务边界与免责声明) ｜ [🛠️ 开发约定](#️-开发约定) ｜ [📄 许可证](#-许可证)
+[✨ 项目亮点](#-项目亮点) ｜ [🏗️ 总体架构](#️-总体架构) ｜ [⚡ 实时主链路](#-实时主链路) ｜ [🧩 服务矩阵](#-服务矩阵) ｜ [📁 仓库结构](#-仓库结构) ｜ [🚀 快速开始](#-快速开始) ｜ [🔌 端口规划](#-端口规划) ｜ [🤖 模型配置](#-模型配置设置页加密存储) ｜ [⚙️ 环境变量](#️-环境变量) ｜ [🧪 测试与验收](#-测试与验收) ｜ [📚 文档地图](#-文档地图) ｜ [⚠️ 业务边界](#️-业务边界与免责声明) ｜ [🛠️ 开发约定](#️-开发约定) ｜ [📄 许可证](#-许可证)
 
 ## ✨ 项目亮点
 
@@ -41,31 +39,29 @@
 
 ## 🏗️ 总体架构
 
+<div align="center">
+
+<img src="docs/assets/architecture.svg" width="100%" alt="总体架构：浏览器 → 18081 双后端 → ASR/LLM/SQLite"/>
+
+</div>
+
+浏览器 AudioWorklet 采集 PCM16 → 裸 WS `/ws/copilot` → 18081 双后端（py / java 二选一，同一份契约）→ 进程内或网关 ASR + 流式 LLM → SQLite 单机存储。完整分层与数据流见 [ARCHITECTURE.md](ARCHITECTURE.md)。
+
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              浏览器（web/ 前端工程，产物 web/dist）             │
-│   React 19 + Vite + TS + Tailwind v4 + shadcn/ui             │
-│   AudioWorklet 采集 PCM16/16kHz ｜ REST + WS(/ws/copilot)     │
-└───────────────────────────┬──────────────────────────────────┘
-                            │  nginx 反代 /api /ws /uploads（或同源直连）
-                            ▼
-┌──────────────────────────────────────────────────────────────┐
-│        入口 ：18081（py 或 java 二选一，SERVER_PORT 可调）       │
-│  A. Python Flask   app.py + routes/ + services/ + utils/      │
-│     ├─ ASR: ASR_BACKEND=builtin(sherpa-onnx 进程内) │ gateway │
-│     └─ LLM: 流式 NDJSON → 要点/参考回答/追问                   │
-│  B. Java interview-server   services/interview-server         │
-│     └─ 同一份契约（REST/WS/设置/模型配置），共享同一 SQLite      │
-└───────────────────────────┬──────────────────────────────────┘
-                            │ ASR_BACKEND=gateway 时内部依赖
-                            ▼
-┌──────────────────────────────────────────────────────────────┐
-│   mica-voice-gateway :18080（sherpa-onnx 解码，实时面试特化）    │
-│   静音判停切分 · 短问句延迟判停（QC/长文案走 offline ASR）        │
-└──────────────────────────────────────────────────────────────┘
+客户端 ──REST /api──▶ 18081 入口（py｜java）──▶ ASR（builtin 进程内 ｜ gateway :18080）
+       ──WS /ws/copilot（v2 帧）─┘            └──HTTPS 流式──▶ LLM（siliconflow/ark/OpenAI 兼容）
+18081 ◀──▶ SQLite instance/（py·java 共享，模型配置 Fernet 加密行）
 ```
 
-完整分层与数据流见 [ARCHITECTURE.md](ARCHITECTURE.md)。
+## ⚡ 实时主链路
+
+<div align="center">
+
+<img src="docs/assets/pipeline.svg" width="100%" alt="实时 Copilot 主链路：采集 → 传输 → 转写 → 话轮 → 生成 → 上屏"/>
+
+</div>
+
+六段全链路：**采集**（双轨 + 声纹分流）→ **传输**（v2 帧 seq/ACK + 背压丢弃）→ **转写**（partial/final，1.2s 判停）→ **话轮装配**（说话人分流、当前题落库）→ **LLM 流式**（NDJSON 三段产出、取消令牌）→ **逐字平滑上屏**（转写气泡按说话人分级、aria-live 读屏支持）。事件与载荷契约见 [docs/api-contract.md §6](docs/api-contract.md)。
 
 ## 🧩 服务矩阵
 
@@ -145,6 +141,12 @@ cd services/interview-server ; mvn test # 91 tests
 部署形态：`npm run build` → `web/dist` 同源相对路径 → nginx 反代 `/api` `/ws` `/uploads` 到 18081（现成配置见 [web/README.md](web/README.md)）。跨域直连方案（`VITE_API_BASE` + `CORS_ORIGINS`）已支持但浏览器会丢会话 Cookie——**Cookie 会话请走反代**。
 
 ## 🤖 模型配置（设置页加密存储）
+
+<div align="center">
+
+<img src="docs/assets/settings-enc.svg" width="100%" alt="模型配置：Fernet 加密落库与双后端互认"/>
+
+</div>
 
 - 登录后 **设置 → 模型配置**：提供商（siliconflow / ark / OpenAI 兼容）、Base URL、主模型 / Copilot 快模型 / 思考模型、API Key；
 - API Key 经 **Fernet 加密落库**（密钥来自 `.env` 的 `CONFIG_ENCRYPTION_KEY`，缺省由 `APP_SECRET_KEY` 派生），页面只显示末 4 位掩码，留空保存 = 保留原密钥；

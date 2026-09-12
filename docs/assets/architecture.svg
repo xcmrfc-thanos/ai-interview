@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1180" viewBox="0 0 1600 1180" font-family="Segoe UI, PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="12%" r="110%">
+      <stop offset="0%" stop-color="#0A1A1E"/>
+      <stop offset="55%" stop-color="#071114"/>
+      <stop offset="100%" stop-color="#050A0C"/>
+    </radialGradient>
+    <linearGradient id="band" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0F1A1E" stop-opacity="0.88"/>
+      <stop offset="100%" stop-color="#0A1214" stop-opacity="0.55"/>
+    </linearGradient>
+    <linearGradient id="gClient" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#60A5FA"/><stop offset="100%" stop-color="#A78BFA"/>
+    </linearGradient>
+    <linearGradient id="gEntry" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2DD4BF"/><stop offset="100%" stop-color="#38BDF8"/>
+    </linearGradient>
+    <linearGradient id="gPy" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#34D399"/><stop offset="100%" stop-color="#14B8A6"/>
+    </linearGradient>
+    <linearGradient id="gJava" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FBBF24"/><stop offset="100%" stop-color="#F97316"/>
+    </linearGradient>
+    <linearGradient id="gAsr" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38BDF8"/><stop offset="100%" stop-color="#0EA5E9"/>
+    </linearGradient>
+    <linearGradient id="gLlm" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#A78BFA"/><stop offset="100%" stop-color="#EC4899"/>
+    </linearGradient>
+    <linearGradient id="gStore" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#34D399"/><stop offset="100%" stop-color="#22D3EE"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#10262B" stroke-width="1" opacity="0.45"/>
+    </pattern>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#2DD4BF"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="1180" fill="url(#bg) #050A0C"/>
+  <rect width="1600" height="1180" fill="url(#grid) #050A0C"/>
+  <rect x="0" y="0" width="1600" height="3" fill="url(#gEntry)" opacity="0.85"/>
+  <text x="800" y="52" text-anchor="middle" font-size="34" font-weight="700" fill="#E8EEF0">总体架构 · 双后端同契约</text>
+
+  <!-- L1 客户端 -->
+  <rect x="80" y="84" width="1440" height="168" rx="14" fill="url(#band)" stroke="#1C2F35"/>
+  <text x="104" y="114" font-size="15" font-weight="700" letter-spacing="3" fill="#60A5FA">CLIENT · 浏览器</text>
+  <rect x="120" y="134" width="420" height="92" rx="10" fill="#0D1619" stroke="url(#gClient)" stroke-width="1.5"/>
+  <text x="330" y="172" text-anchor="middle" font-size="21" font-weight="600" fill="#E8EEF0">React 19 SPA</text>
+  <text x="330" y="202" text-anchor="middle" font-size="15" fill="#94A3AE">Vite · TS · Tailwind v4 · shadcn/ui · 暗亮双主题</text>
+  <rect x="590" y="134" width="420" height="92" rx="10" fill="#0D1619" stroke="url(#gClient)" stroke-width="1.5"/>
+  <text x="800" y="172" text-anchor="middle" font-size="21" font-weight="600" fill="#E8EEF0">AudioWorklet 采集</text>
+  <text x="800" y="202" text-anchor="middle" font-size="15" fill="#94A3AE">PCM16 · 16kHz · 100ms 帧 · 声纹验证可选</text>
+  <rect x="1060" y="134" width="420" height="92" rx="10" fill="#0D1619" stroke="url(#gClient)" stroke-width="1.5"/>
+  <text x="1270" y="172" text-anchor="middle" font-size="21" font-weight="600" fill="#E8EEF0">逐字平滑上屏</text>
+  <text x="1270" y="202" text-anchor="middle" font-size="15" fill="#94A3AE">use-smooth-text · 打字光标 · 流式角标</text>
+
+  <line x1="800" y1="252" x2="800" y2="318" stroke="#2DD4BF" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="880" y="292" font-size="15" fill="#5EEAD4">REST /api ｜ WebSocket /ws/copilot（v2 二进制帧）</text>
+  <text x="1276" y="292" font-size="14" fill="#647480">可选：nginx 反代 /api /ws /uploads</text>
+
+  <!-- L2 入口 18081 -->
+  <rect x="80" y="322" width="1440" height="330" rx="14" fill="url(#band)" stroke="#1C3A38"/>
+  <text x="104" y="352" font-size="15" font-weight="700" letter-spacing="3" fill="#2DD4BF">ENTRY :18081 · 双后端二选一（SERVER_PORT 可调）</text>
+  <rect x="120" y="376" width="660" height="250" rx="10" fill="#0D1619" stroke="url(#gPy)" stroke-width="2"/>
+  <text x="450" y="416" text-anchor="middle" font-size="23" font-weight="700" fill="#34D399">A · Python Flask（app.py）</text>
+  <text x="450" y="452" text-anchor="middle" font-size="15" fill="#94A3AE">routes/ REST ｜ utils/copilot_ws 裸 WS ｜ services/ 领域层</text>
+  <text x="450" y="480" text-anchor="middle" font-size="15" fill="#94A3AE">SPA 托管中间件（web/dist）｜ CORS 可选</text>
+  <text x="450" y="508" text-anchor="middle" font-size="15" fill="#94A3AE">模型配置 GET/PUT（Fernet 加密落库）</text>
+  <text x="450" y="536" text-anchor="middle" font-size="15" fill="#94A3AE">ASR_BACKEND = builtin / gateway / auto</text>
+  <text x="450" y="588" text-anchor="middle" font-size="14" fill="#647480">pytest 120 全绿</text>
+  <rect x="820" y="376" width="660" height="250" rx="10" fill="#0D1619" stroke="url(#gJava)" stroke-width="2"/>
+  <text x="1150" y="416" text-anchor="middle" font-size="23" font-weight="700" fill="#FBBF24">B · Java interview-server</text>
+  <text x="1150" y="452" text-anchor="middle" font-size="15" fill="#94A3AE">web/ 路由（feat 框架）｜ copilot/ 会话运行时</text>
+  <text x="1150" y="480" text-anchor="middle" font-size="15" fill="#94A3AE">同一契约第二实现 ｜ WEB_DIST_DIR 直读 web/dist</text>
+  <text x="1150" y="508" text-anchor="middle" font-size="15" fill="#94A3AE">SettingsRoutes 模型配置（FernetBox 加密）</text>
+  <text x="1150" y="536" text-anchor="middle" font-size="15" fill="#94A3AE">共享同一 instance/ SQLite 与 .env</text>
+  <text x="1150" y="588" text-anchor="middle" font-size="14" fill="#647480">mvn test 91 全绿</text>
+  <text x="800" y="390" text-anchor="middle" font-size="14" fill="#647480">docs/api-contract.md 为唯一事实源</text>
+
+  <!-- L3 ASR -->
+  <line x1="450" y1="626" x2="450" y2="692" stroke="#2DD4BF" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="1150" y1="626" x2="1150" y2="692" stroke="#2DD4BF" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="480" y="668" font-size="14" fill="#5EEAD4">builtin：进程内流式</text>
+  <text x="1180" y="668" font-size="14" fill="#5EEAD4">gateway：WS 转发解码</text>
+  <rect x="80" y="696" width="1440" height="196" rx="14" fill="url(#band)" stroke="#1C2F35"/>
+  <text x="104" y="726" font-size="15" font-weight="700" letter-spacing="3" fill="#38BDF8">ASR · 语音识别双后端</text>
+  <rect x="120" y="746" width="660" height="120" rx="10" fill="#0D1619" stroke="url(#gAsr)" stroke-width="1.5"/>
+  <text x="450" y="784" text-anchor="middle" font-size="20" font-weight="600" fill="#E8EEF0">builtin · sherpa-onnx 进程内</text>
+  <text x="450" y="814" text-anchor="middle" font-size="15" fill="#94A3AE">零外部依赖 · 模型进程级共享 · 声纹分流</text>
+  <text x="450" y="842" text-anchor="middle" font-size="15" fill="#94A3AE">SHERPA_ENDPOINT_SILENCE=1.2s 判停 · 暂停队列上限 10s</text>
+  <rect x="820" y="746" width="660" height="120" rx="10" fill="#0D1619" stroke="url(#gAsr)" stroke-width="1.5"/>
+  <text x="1150" y="784" text-anchor="middle" font-size="20" font-weight="600" fill="#E8EEF0">gateway · mica-voice-gateway :18080</text>
+  <text x="1150" y="814" text-anchor="middle" font-size="15" fill="#94A3AE">实时面试特化：静音切分 + 短问句延迟判停</text>
+  <text x="1150" y="842" text-anchor="middle" font-size="15" fill="#94A3AE">QC / 长文案建议 offline ASR（配置已预留）</text>
+
+  <!-- L4 LLM -->
+  <line x1="800" y1="652" x2="800" y2="932" stroke="#A78BFA" stroke-width="0" />
+  <line x1="620" y1="626" x2="620" y2="660" stroke="#A78BFA" stroke-width="2"/>
+  <line x1="620" y1="660" x2="160" y2="660" stroke="#A78BFA" stroke-width="2"/>
+  <line x1="160" y1="660" x2="160" y2="932" stroke="#A78BFA" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="180" y="916" font-size="14" fill="#C4B5FD">HTTPS 流式（NDJSON）</text>
+  <rect x="80" y="936" width="700" height="150" rx="14" fill="url(#band)" stroke="#2E1F3D"/>
+  <text x="104" y="966" font-size="15" font-weight="700" letter-spacing="3" fill="#C4B5FD">LLM · 流式生成</text>
+  <text x="300" y="1002" text-anchor="middle" font-size="19" font-weight="600" fill="#E8EEF0">siliconflow ｜ ark（火山方舟）｜ OpenAI 兼容</text>
+  <text x="300" y="1032" text-anchor="middle" font-size="15" fill="#94A3AE">NDJSON 分行：answer_points → answer_delta → completed</text>
+  <text x="300" y="1060" text-anchor="middle" font-size="15" fill="#94A3AE">提供商/模型/API Key 可视化配置（Fernet 加密）</text>
+
+  <!-- L5 存储 -->
+  <line x1="980" y1="626" x2="980" y2="660" stroke="#22D3EE" stroke-width="2"/>
+  <line x1="980" y1="660" x2="1440" y2="660" stroke="#22D3EE" stroke-width="2"/>
+  <line x1="1440" y1="660" x2="1440" y2="932" stroke="#22D3EE" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="1180" y="916" font-size="14" fill="#67E8F9">SQLAlchemy / MyBatis（参数化）</text>
+  <rect x="820" y="936" width="700" height="150" rx="14" fill="url(#band)" stroke="#123B3E"/>
+  <text x="844" y="966" font-size="15" font-weight="700" letter-spacing="3" fill="#67E8F9">STORAGE · 本地存储</text>
+  <text x="1170" y="1002" text-anchor="middle" font-size="19" font-weight="600" fill="#E8EEF0">SQLite instance/ai_interview_local.db</text>
+  <text x="1170" y="1032" text-anchor="middle" font-size="15" fill="#94A3AE">py / java 共享同一库（WAL · busy_timeout · 参数化）</text>
+  <text x="1170" y="1060" text-anchor="middle" font-size="15" fill="#94A3AE">llm_config 表 api_key_enc 为 Fernet 密文 ｜ uploads/ 不入库</text>
+
+  <text x="800" y="1140" text-anchor="middle" font-size="15" fill="#647480">契约事实源：docs/api-contract.md ｜ 详细分层：ARCHITECTURE.md</text>
+</svg>

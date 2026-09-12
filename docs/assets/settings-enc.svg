@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="620" viewBox="0 0 1600 620" font-family="Segoe UI, PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="20%" r="100%">
+      <stop offset="0%" stop-color="#0A1A1E"/>
+      <stop offset="60%" stop-color="#071114"/>
+      <stop offset="100%" stop-color="#050A0C"/>
+    </radialGradient>
+    <linearGradient id="gs1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2DD4BF"/><stop offset="100%" stop-color="#38BDF8"/>
+    </linearGradient>
+    <linearGradient id="gs2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38BDF8"/><stop offset="100%" stop-color="#A78BFA"/>
+    </linearGradient>
+    <linearGradient id="gs3" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#34D399"/><stop offset="100%" stop-color="#2DD4BF"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#10262B" stroke-width="1" opacity="0.45"/>
+    </pattern>
+    <marker id="arr2" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#2DD4BF"/>
+    </marker>
+    <filter id="glowSm" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="2.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="620" fill="url(#bg) #050A0C"/>
+  <rect width="1600" height="620" fill="url(#grid) #050A0C"/>
+  <rect x="0" y="0" width="1600" height="3" fill="url(#gs1)" opacity="0.85"/>
+  <text x="800" y="54" text-anchor="middle" font-size="34" font-weight="700" fill="#E8EEF0">模型配置 · Fernet 加密存储与双后端互认</text>
+
+  <!-- ① 设置页 -->
+  <rect x="80" y="120" width="330" height="200" rx="12" fill="#0D1619" stroke="url(#gs1)" stroke-width="2" filter="url(#glowSm)"/>
+  <text x="110" y="158" font-size="16" font-weight="700" fill="#2DD4BF">① 设置 → 模型配置</text>
+  <text x="245" y="192" text-anchor="middle" font-size="17" fill="#E8EEF0">提供商 · Base URL</text>
+  <text x="245" y="220" text-anchor="middle" font-size="17" fill="#E8EEF0">主模型 / 快模型 / 思考模型</text>
+  <text x="245" y="248" text-anchor="middle" font-size="17" fill="#E8EEF0">API Key（密码框）</text>
+  <text x="245" y="286" text-anchor="middle" font-size="13" fill="#647480">PUT /api/settings/llm</text>
+  <text x="245" y="306" text-anchor="middle" font-size="13" fill="#647480">留空 = 保留原密钥 · clear_api_key 清除</text>
+
+  <!-- ② Fernet -->
+  <rect x="470" y="120" width="330" height="200" rx="12" fill="#0D1619" stroke="url(#gs2)" stroke-width="2" filter="url(#glowSm)"/>
+  <text x="500" y="158" font-size="16" font-weight="700" fill="#38BDF8">② Fernet 加密</text>
+  <text x="635" y="192" text-anchor="middle" font-size="16" fill="#E8EEF0">key = SHA-256(secret)</text>
+  <text x="635" y="222" text-anchor="middle" font-size="14" fill="#94A3AE">secret = CONFIG_ENCRYPTION_KEY</text>
+  <text x="635" y="246" text-anchor="middle" font-size="14" fill="#94A3AE">缺省回退 APP_SECRET_KEY</text>
+  <text x="635" y="286" text-anchor="middle" font-size="13" fill="#647480">无密钥时拒绝明文落库（400）</text>
+
+  <!-- 密钥来源虚线框 -->
+  <rect x="500" y="386" width="270" height="120" rx="10" fill="#0D1619" stroke="#2E4A50" stroke-dasharray="6 4"/>
+  <text x="635" y="420" text-anchor="middle" font-size="15" font-weight="600" fill="#94A3AE">.env（不入库）</text>
+  <text x="635" y="448" text-anchor="middle" font-size="14" fill="#647480">CONFIG_ENCRYPTION_KEY /</text>
+  <text x="635" y="470" text-anchor="middle" font-size="14" fill="#647480">APP_SECRET_KEY</text>
+  <line x1="635" y1="382" x2="635" y2="324" stroke="#2DD4BF" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr2)"/>
+
+  <line x1="412" y1="220" x2="466" y2="220" stroke="#2DD4BF" stroke-width="2.5" marker-end="url(#arr2)"/>
+
+  <!-- ③ SQLite -->
+  <rect x="860" y="120" width="330" height="200" rx="12" fill="#0D1619" stroke="url(#gs3)" stroke-width="2" filter="url(#glowSm)"/>
+  <text x="890" y="158" font-size="16" font-weight="700" fill="#34D399">③ 加密落库</text>
+  <text x="1025" y="192" text-anchor="middle" font-size="17" fill="#E8EEF0">SQLite · llm_config（id=1）</text>
+  <text x="1025" y="222" text-anchor="middle" font-size="15" fill="#94A3AE">api_key_enc = 密文 ｜ 明文不落库</text>
+  <text x="1025" y="250" text-anchor="middle" font-size="15" fill="#94A3AE">GET 回显仅末 4 位掩码（****7890）</text>
+  <text x="1025" y="286" text-anchor="middle" font-size="13" fill="#647480">py / java 共享同一 instance 库</text>
+
+  <line x1="802" y1="220" x2="856" y2="220" stroke="#2DD4BF" stroke-width="2.5" marker-end="url(#arr2)"/>
+
+  <!-- ④ 运行时 -->
+  <rect x="860" y="386" width="330" height="150" rx="12" fill="#0D1619" stroke="#2E4A50" stroke-dasharray="6 4"/>
+  <text x="890" y="420" font-size="16" font-weight="700" fill="#67E8F9">④ 运行时解析</text>
+  <text x="1025" y="452" text-anchor="middle" font-size="15" fill="#94A3AE">读库优先（逐字段非空覆盖）</text>
+  <text x="1025" y="480" text-anchor="middle" font-size="15" fill="#94A3AE">.env LLM_* 兜底 ｜ 5s TTL 缓存</text>
+  <text x="1025" y="508" text-anchor="middle" font-size="13" fill="#647480">保存即失效缓存，立即生效</text>
+  <line x1="1025" y1="322" x2="1025" y2="382" stroke="#2DD4BF" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr2)"/>
+
+  <!-- ⑤ 双后端互认 -->
+  <rect x="1250" y="120" width="270" height="416" rx="12" fill="#0D1619" stroke="url(#gs1)" stroke-width="2" filter="url(#glowSm)"/>
+  <text x="1385" y="158" text-anchor="middle" font-size="16" font-weight="700" fill="#2DD4BF">⑤ 双后端互认</text>
+  <text x="1385" y="196" text-anchor="middle" font-size="16" fill="#E8EEF0">py cryptography.Fernet</text>
+  <text x="1385" y="222" text-anchor="middle" font-size="16" fill="#E8EEF0">⇄ java FernetBox</text>
+  <text x="1385" y="258" text-anchor="middle" font-size="14" fill="#94A3AE">同一密文两端均可解</text>
+  <text x="1385" y="296" text-anchor="middle" font-size="15" fill="#5EEAD4">py 写 → java 读 ✓</text>
+  <text x="1385" y="322" text-anchor="middle" font-size="15" fill="#5EEAD4">java 写 → py 读 ✓</text>
+  <text x="1385" y="364" text-anchor="middle" font-size="13" fill="#647480">E2E 实测（共享临时库）</text>
+  <text x="1385" y="392" text-anchor="middle" font-size="13" fill="#647480">掩码 ****末4位 · 明文不回显</text>
+  <text x="1385" y="428" text-anchor="middle" font-size="13" fill="#647480">无密钥进程：拒绝加密保存</text>
+  <text x="1385" y="452" text-anchor="middle" font-size="13" fill="#647480">解密失败按未配置处理</text>
+
+  <line x1="1192" y1="220" x2="1246" y2="220" stroke="#2DD4BF" stroke-width="2.5" marker-end="url(#arr2)"/>
+
+  <text x="800" y="580" text-anchor="middle" font-size="15" fill="#647480">安全设计：密钥仅存 .env（gitignored）｜ 校验失败/密钥轮换 → 按未配置降级，不抛异常 ｜ POST 体与响应均不含明文</text>
+</svg>

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="420" viewBox="0 0 1600 420" font-family="Segoe UI, PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="30%" r="90%">
+      <stop offset="0%" stop-color="#0A1A1E"/>
+      <stop offset="55%" stop-color="#071114"/>
+      <stop offset="100%" stop-color="#050A0C"/>
+    </radialGradient>
+    <linearGradient id="titleGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2DD4BF"/>
+      <stop offset="55%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#67E8F9"/>
+    </linearGradient>
+    <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2DD4BF"/>
+      <stop offset="100%" stop-color="#38BDF8"/>
+    </linearGradient>
+    <linearGradient id="wave" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2DD4BF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#2DD4BF" stop-opacity="0.25"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#10262B" stroke-width="1" opacity="0.5"/>
+    </pattern>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="420" fill="url(#bg) #050A0C"/>
+  <rect width="1600" height="420" fill="url(#grid) #050A0C"/>
+  <rect x="0" y="0" width="1600" height="3" fill="url(#lineGrad) #2DD4BF" opacity="0.85"/>
+  <circle cx="1330" cy="80" r="230" fill="#2DD4BF" opacity="0.05"/>
+  <circle cx="250" cy="380" r="180" fill="#38BDF8" opacity="0.05"/>
+
+  <text x="800" y="118" text-anchor="middle" font-size="19" letter-spacing="8" fill="#5EEAD4" opacity="0.85">PERSONAL INTERVIEW WORKSPACE · ATS SUITE</text>
+
+  <text x="800" y="208" text-anchor="middle" font-size="68" font-weight="700" fill="url(#titleGrad)" filter="url(#glow)">面试 Copilot · ai-interview</text>
+
+  <text x="800" y="268" text-anchor="middle" font-size="27" fill="#B9C8CE">岗位准备 · 实时辅助 · 模拟面试 · 统一复盘</text>
+
+  <!-- 声波条（呼应首页 Hero） -->
+  <g filter="url(#glow)">
+    <rect x="708" y="316" width="7" height="22" rx="3.5" fill="url(#wave)" transform="rotate(0 711 327)"/>
+    <rect x="728" y="308" width="7" height="38" rx="3.5" fill="url(#wave)"/>
+    <rect x="748" y="300" width="7" height="54" rx="3.5" fill="url(#wave)"/>
+    <rect x="768" y="310" width="7" height="34" rx="3.5" fill="url(#wave)"/>
+    <rect x="788" y="302" width="7" height="50" rx="3.5" fill="url(#wave)"/>
+    <rect x="808" y="296" width="7" height="62" rx="3.5" fill="url(#wave)"/>
+    <rect x="828" y="306" width="7" height="42" rx="3.5" fill="url(#wave)"/>
+    <rect x="848" y="312" width="7" height="30" rx="3.5" fill="url(#wave)"/>
+    <rect x="868" y="304" width="7" height="46" rx="3.5" fill="url(#wave)"/>
+    <rect x="888" y="314" width="7" height="26" rx="3.5" fill="url(#wave)"/>
+  </g>
+
+  <text x="800" y="392" text-anchor="middle" font-size="17" fill="#647480">Python Flask ｜ Java interview-server ｜ React 19 ｜ sherpa-onnx ｜ SQLite ｜ Fernet 加密配置</text>
+</svg>
