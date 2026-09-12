@@ -16,14 +16,14 @@ export function StatCard({
   className?: string;
 }) {
   return (
-    <div className={cn("rounded-xl border border-border bg-card p-4", className)}>
+    <div className={cn("rounded-xl border border-border bg-card p-4 shadow-xs transition-colors hover:border-border-strong", className)}>
       <div className="flex items-center justify-between gap-2">
         <span className="text-sm text-muted-foreground">{label}</span>
         <span className="flex size-8 items-center justify-center rounded-lg bg-primary-soft text-primary">
           <Icon className="size-4" aria-hidden />
         </span>
       </div>
-      <div className="mt-2 text-2xl font-semibold tracking-tight">{value}</div>
+      <div className="mt-2 text-[26px] font-semibold tracking-tight tabular-nums">{value}</div>
       {hint ? <div className="mt-0.5 text-xs text-faint">{hint}</div> : null}
     </div>
   );

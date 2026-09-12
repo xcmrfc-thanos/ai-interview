@@ -62,6 +62,8 @@ public class CopilotWs extends WebSocketUpgrade {
     private final Map<String, AsrSession> asrSessions = new ConcurrentHashMap<>();
     private final Map<String, String> lastTranscriptTextBySource = new ConcurrentHashMap<>();
     private final Map<String, String> lastTranscriptTypeBySource = new ConcurrentHashMap<>();
+    private final Map<String, Long> lastVoiceVerifyAtBySource = new ConcurrentHashMap<>();
+    private final Map<String, Boolean> lastVoiceVerifyResultBySource = new ConcurrentHashMap<>();
     private WebSocketResponse connection;
     private WsEventSink eventSink;
     private Long sessionId;
@@ -407,7 +409,7 @@ public class CopilotWs extends WebSocketUpgrade {
         payload.put("text", normalized);
         payload.put("version", version);
         payload.put("source", externalSource(audioSource));
-        Boolean voiceProfileMatch = resolveVoiceProfileMatch(audioSource);
+        Boolean voiceProfileMatch = resolveVoiceProfileMatch(audioSource, "final".equals(type));
         String effectiveSpeaker = CopilotWsPolicy.resolveSpeakerForAudioSource(
             audioSource, captureMode, voiceProfileMatch, speaker);
         payload.put("speaker", effectiveSpeaker);
@@ -520,15 +522,31 @@ public class CopilotWs extends WebSocketUpgrade {
         }
     }
 
-    /** 自动模式麦克风轨：基于最近 PCM 窗口做声纹比对。 */
-    private Boolean resolveVoiceProfileMatch(String audioSource) {
+    /** partial 高频到达时的声纹比对最小间隔：窗口内复用上次结果，避免每次都做快照+embedding。 */
+    private static final long VOICE_VERIFY_MIN_INTERVAL_MS = 1500;
+
+    /** 自动模式麦克风轨：基于最近 PCM 窗口做声纹比对；partial 按 1.5s 节流，final 始终实时。 */
+    private Boolean resolveVoiceProfileMatch(String audioSource, boolean isFinal) {
         if (!"auto".equals(captureMode) || !"microphone".equals(audioSource)) {
             return null;
         }
         if (voiceProfileVerifier == null) {
             return null;
         }
-        return voiceProfileVerifier.verifyRecentPcm(micPcmBuffer.snapshot());
+        long now = System.currentTimeMillis();
+        if (!isFinal) {
+            Long lastAt = lastVoiceVerifyAtBySource.get(audioSource);
+            Boolean lastResult = lastVoiceVerifyResultBySource.get(audioSource);
+            if (lastAt != null && lastResult != null && now - lastAt < VOICE_VERIFY_MIN_INTERVAL_MS) {
+                return lastResult;
+            }
+        }
+        Boolean result = voiceProfileVerifier.verifyRecentPcm(micPcmBuffer.snapshot());
+        if (result != null) {
+            lastVoiceVerifyAtBySource.put(audioSource, now);
+            lastVoiceVerifyResultBySource.put(audioSource, result);
+        }
+        return result;
     }
 
     private void closeVoiceProfileVerifier() {

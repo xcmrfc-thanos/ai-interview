@@ -2,7 +2,7 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-const cardVariants = cva("rounded-xl border border-border bg-card text-card-foreground", {
+const cardVariants = cva("rounded-xl border border-border bg-card text-card-foreground shadow-xs", {
   variants: {
     variant: {
       /** 静态平卡（表单容器、列表容器） */

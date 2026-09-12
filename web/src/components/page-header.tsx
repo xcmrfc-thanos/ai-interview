@@ -17,7 +17,7 @@ export function PageHeader({
   return (
     <div className="flex flex-wrap items-start justify-between gap-3 border-b border-border px-4 py-5 md:px-6">
       <div className="min-w-0">
-        <h1 className="text-xl font-semibold tracking-tight">{title}</h1>
+        <h1 className="text-[22px] font-semibold leading-tight tracking-tight">{title}</h1>
         {description ? <p className="mt-1 text-sm text-muted-foreground">{description}</p> : null}
       </div>
       {actions ? <div className="flex items-center gap-2">{actions}</div> : null}
@@ -45,6 +45,7 @@ const KIND_MAP: Record<string, "neutral" | "primary" | "info" | "success" | "war
   completed: "success",
   failed: "danger",
   none: "neutral",
+  pending: "info",
 };
 
 const LABEL_MAP: Record<string, string> = {
@@ -67,6 +68,7 @@ const LABEL_MAP: Record<string, string> = {
   completed: "已完成",
   failed: "生成失败",
   none: "未开始",
+  pending: "待准备",
 };
 
 // 设计系统 .status 徽章：状态 token → kind 映射

@@ -55,8 +55,8 @@ export function AuthLayout({ title, description, children, footer }: {
 
       {/* 表单区 */}
       <div className="flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-sm">
-          <div className="mb-8 flex items-center gap-2.5 lg:hidden">
+        <div className="w-full max-w-sm rounded-2xl border border-border bg-card p-8 shadow-md">
+          <div className="mb-6 flex items-center gap-2.5 lg:hidden">
             <span className="flex size-8 items-center justify-center rounded-lg bg-brand-gradient text-white">
               <MessagesSquare className="size-4" aria-hidden />
             </span>

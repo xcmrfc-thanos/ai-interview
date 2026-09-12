@@ -133,8 +133,9 @@ export function AppShell() {
                     to={to}
                     className={({ isActive }) =>
                       cn(
-                        "flex h-9 items-center gap-2.5 rounded-md px-3 text-sm text-muted-foreground transition-colors hover:bg-hover hover:text-foreground",
-                        isActive && "bg-primary-soft font-medium text-primary hover:text-primary",
+                        "relative flex h-9 items-center gap-2.5 rounded-md px-3 text-sm text-muted-foreground transition-colors hover:bg-hover hover:text-foreground",
+                        isActive &&
+                          "bg-primary-soft font-medium text-primary hover:text-primary before:absolute before:left-0 before:top-1/2 before:h-4 before:w-[3px] before:-translate-y-1/2 before:rounded-full before:bg-brand-gradient before:content-['']",
                       )
                     }
                   >
@@ -150,7 +151,7 @@ export function AppShell() {
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-border bg-card px-4">
+        <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-border bg-card/90 px-4 shadow-xs backdrop-blur">
           <NavLink to="/applicant/workspace" className="flex items-center gap-2 md:hidden">
             <Mic className="size-5 text-primary" />
             <span className="font-semibold">面试 Copilot</span>
@@ -200,7 +201,7 @@ export function AppShell() {
             </NavLink>
           ))}
         </nav>
-        <main className="min-w-0 flex-1">
+        <main className="mx-auto min-w-0 w-full max-w-[1560px] flex-1">
           {/* key 按路径重挂载，让 page-in 淡入在每次页面切换时重放 */}
           <div key={location.pathname} className="animate-page-in">
             <Outlet />
