@@ -1,5 +1,6 @@
 package com.aiinterview.server.db;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -31,6 +32,12 @@ class LlmConfigDaoTest {
                 + "api_key_enc TEXT, updated_at DATETIME NOT NULL)");
         }
         MyBatis.init(db);
+    }
+
+    @AfterEach
+    void releasePool() {
+        // 池连接持有 test.db 文件句柄，须先释放才能让 @TempDir 清理成功
+        MyBatis.shutdown();
     }
 
     @Test

@@ -99,9 +99,12 @@ public final class CopilotSessionRuntime {
         inflightAnswers.incrementAndGet();
     }
 
-    /** 记录在途 LLM 回答完成。 */
+    /** 记录在途 LLM 回答完成；唤醒排水等待者（wait/notify 替代 50ms 忙等轮询）。 */
     public void answerFinished() {
         inflightAnswers.updateAndGet(value -> Math.max(0, value - 1));
+        synchronized (this) {
+            notifyAll();
+        }
     }
 
     /** 是否仍有在途回答。 */
@@ -112,8 +115,14 @@ public final class CopilotSessionRuntime {
     /** 阻塞等待在途回答完成或超时。 */
     public void awaitPendingAnswers(long timeoutMs) throws InterruptedException {
         long deadline = System.currentTimeMillis() + Math.max(0L, timeoutMs);
-        while (hasPendingAnswers() && System.currentTimeMillis() < deadline) {
-            Thread.sleep(50L);
+        synchronized (this) {
+            while (hasPendingAnswers()) {
+                long remain = deadline - System.currentTimeMillis();
+                if (remain <= 0L) {
+                    return;
+                }
+                wait(remain);
+            }
         }
     }
 

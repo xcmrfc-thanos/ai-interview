@@ -4,6 +4,7 @@ import com.aiinterview.server.FernetBox;
 import com.aiinterview.server.db.LlmConfigDao;
 import com.aiinterview.server.db.MyBatis;
 import com.alibaba.fastjson2.JSONObject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -39,6 +40,12 @@ class LlmSettingsServiceTest {
                 + "api_key_enc TEXT, updated_at DATETIME NOT NULL)");
         }
         MyBatis.init(db);
+    }
+
+    @AfterEach
+    void releasePool() {
+        // 池连接持有 test.db 文件句柄，须先释放才能让 @TempDir 清理成功
+        MyBatis.shutdown();
     }
 
     private static JSONObject savePayload() {

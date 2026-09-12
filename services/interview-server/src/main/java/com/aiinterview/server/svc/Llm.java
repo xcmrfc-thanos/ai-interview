@@ -7,14 +7,19 @@ import tech.smartboot.feat.ai.chat.entity.ChatResponse;
 import tech.smartboot.feat.ai.chat.entity.Message;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.lang.reflect.Field;
 
 /** 统一 LLM 客户端：非流式聚合调用（对应 Python utils/llm_client.py）。 */
 public final class Llm {
 
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Llm.class);
+    /** Message.text 字段反射缓存：避免每条消息每次请求重复 getDeclaredField + setAccessible。 */
+    private static final Map<Class<?>, Field> TEXT_FIELD_CACHE = new ConcurrentHashMap<>();
 
     private final long timeoutSeconds;
     /** 配置提供器；测试注入固定 ChatModel 时为 null。 */
@@ -219,23 +224,30 @@ public final class Llm {
         return sb.append("]").toString();
     }
 
-    /** 兼容方式获取 Message 内容 */
+    /** 兼容方式获取 Message 内容（text 字段反射结果按类缓存）。 */
     private String getMessageContent(Message msg) {
         try {
-            // 尝试 text 字段
-            java.lang.reflect.Field field = msg.getClass().getDeclaredField("text");
-            field.setAccessible(true);
-            Object val = field.get(msg);
-            return val != null ? val.toString() : "";
-        } catch (Exception e1) {
-            try {
-                // 尝试 getText 方法
-                java.lang.reflect.Method method = msg.getClass().getMethod("getText");
-                Object val = method.invoke(msg);
+            Field field = TEXT_FIELD_CACHE.computeIfAbsent(msg.getClass(), c -> {
+                try {
+                    return c.getDeclaredField("text");
+                } catch (NoSuchFieldException e) {
+                    return null;
+                }
+            });
+            if (field != null) {
+                field.setAccessible(true);
+                Object val = field.get(msg);
                 return val != null ? val.toString() : "";
-            } catch (Exception e2) {
-                return "[无法获取内容]";
             }
+        } catch (Exception ignored) {
+            // 走 getter 兜底
+        }
+        try {
+            java.lang.reflect.Method method = msg.getClass().getMethod("getText");
+            Object val = method.invoke(msg);
+            return val != null ? val.toString() : "";
+        } catch (Exception e2) {
+            return "[无法获取内容]";
         }
     }
 

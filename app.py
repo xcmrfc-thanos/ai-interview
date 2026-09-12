@@ -272,8 +272,7 @@ from utils.copilot_ws import register_copilot_ws
 register_copilot_ws(app)
 
 # ---- web/dist SPA 托管（设置 SPA_ENABLED=1 启用；默认保持服务端模板渲染） ----
-_WEB_DIST = Path(__file__).resolve().parent / "web" / "dist"
-_WEB_INDEX = _WEB_DIST / "index.html"
+# _WEB_DIST/_WEB_INDEX 已在文件头部定义，此处只读环境开关
 _SPA_ENABLED = os.getenv("SPA_ENABLED", "") == "1"
 # 走 SPA 入口的页面路径前缀（API/WS/静态资源除外）
 _SPA_PREFIXES = ("/applicant", "/login", "/register")
