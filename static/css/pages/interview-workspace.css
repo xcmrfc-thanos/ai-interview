@@ -1,0 +1,43 @@
+.interview-workspace { width: 100%; margin: 0 auto; }
+.app-shell--standalone .interview-workspace { max-width: 1440px; }
+/* 模式切换胶囊已下线：实时辅助与 AI 模拟面试分别走独立路由。
+   旧选择器保留兜底，避免历史收藏链接或扩展破坏布局。           */
+.interview-mode-tabs { display: none; }
+.workspace-actions { display: flex; align-items: center; gap: 8px; }
+.workspace-actions .button { min-height: 44px; }
+.interview-panel[hidden] { display: none; }
+.pregen-groups { display: grid; gap: 18px; }
+.pregen-group h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; font-size: 14px; color: var(--text-primary); letter-spacing: -.01em; }
+.pregen-group ol { display: grid; gap: 8px; margin: 0; padding: 0 0 0 18px; color: var(--text-secondary); line-height: 1.7; }
+.pregen-group li { margin: 0; }
+.pregen-count { min-width: 22px; height: 22px; display: grid; place-items: center; padding: 0 6px; border-radius: 999px; color: var(--text-secondary); background: var(--bg-subtle); font-size: 12px; }
+.pregen-state { margin: 0; color: var(--text-muted); font-size: 12px; }
+.pregen-state.is-unconfirmed { color: var(--warning); }
+
+.workspace-drawers { position: fixed; inset: 0; z-index: var(--layer-modal); pointer-events: none; }
+.drawer-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, .55); backdrop-filter: blur(2px); pointer-events: auto; }
+.workspace-drawer { position: absolute; inset: 0 0 0 auto; width: min(400px, calc(100vw - 24px)); display: flex; flex-direction: column; background: var(--bg-elevated); border-left: 1px solid var(--border-strong); box-shadow: var(--shadow-2); pointer-events: auto; transform: translateX(0); animation: drawer-in var(--motion-base) ease; }
+@keyframes drawer-in { from { transform: translateX(100%); } to { transform: translateX(0); } }
+.drawer-header { flex: 0 0 auto; min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--border-subtle); background: var(--bg-raised); }
+.drawer-header h2 { display: flex; align-items: center; gap: 9px; margin: 0; font-size: 17px; }
+.drawer-header h2 i { color: var(--live); font-size: 20px; }
+.drawer-body { flex: 1 1 auto; overflow-y: auto; padding: 20px 18px; }
+.drawer-body .empty-state { min-height: 120px; }
+
+.workspace-fabs { position: fixed; right: 22px; bottom: 22px; z-index: calc(var(--layer-modal) + 1); display: grid; gap: 10px; justify-items: end; }
+.drawer-fab { min-width: 52px; min-height: 52px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 10px 14px; border: 1px solid var(--border-strong); border-radius: 999px; color: var(--text-primary); background: color-mix(in srgb, var(--bg-raised) 92%, var(--primary) 8%); box-shadow: var(--shadow-1); font-size: 15px; text-decoration: none; cursor: pointer; backdrop-filter: blur(10px); transition: border-color var(--motion-fast) ease, transform var(--motion-fast) ease, background var(--motion-fast) ease; }
+.drawer-fab:hover { border-color: var(--primary); background: var(--bg-elevated); transform: translateY(-1px); }
+.drawer-fab i { color: var(--live); font-size: 21px; }
+@media (max-width: 620px) { .drawer-fab span { display: none; } .drawer-fab { min-width: 48px; min-height: 48px; padding: 0; } .workspace-fabs { right: 14px; bottom: 14px; } }
+
+.preview-filename { margin: 0 0 12px; color: var(--text-muted); font-size: 13px; word-break: break-all; }
+.preview-loading { color: var(--text-muted); }
+.preview-iframe { width: 100%; min-height: 62dvh; border: 1px solid var(--border-subtle); border-radius: 12px; background: #fff; }
+.preview-md { display: grid; gap: 10px; }
+.preview-md h2, .preview-md h3, .preview-md h4 { margin: 0; letter-spacing: -.015em; }
+.preview-md h2 { font-size: 19px; }
+.preview-md h3 { font-size: 16px; }
+.preview-md h4 { font-size: 14px; }
+.preview-md p { margin: 0; color: var(--text-secondary); line-height: 1.75; }
+.preview-md ul { display: grid; gap: 6px; margin: 0; padding-left: 18px; color: var(--text-secondary); line-height: 1.7; }
+.preview-table-row { font-variant-numeric: tabular-nums; }

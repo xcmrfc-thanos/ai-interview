@@ -1,0 +1,286 @@
+/* 全局主题变量 */
+:root {
+  /* 深色主题 - 用于首页 */
+  --dark-gradient-primary: linear-gradient(135deg, #2b2d42 0%, #1a1b2e 100%);
+  --dark-gradient-secondary: linear-gradient(135deg, #7209b7 0%, #3f37c9 100%);
+  --dark-bg: #0a0b14;
+  
+  /* 浅色主题 - 用于功能页面 */
+  --light-gradient-primary: linear-gradient(135deg, #f8f9fc 0%, #eef1f9 100%);
+  --light-gradient-secondary: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  --light-bg: #ffffff;
+  
+  /* 共用的强调色 */
+  --accent-purple: #7209b7;
+  --accent-blue: #4361ee;
+  --accent-pink: #f72585;
+  
+  /* 共用的中性色 */
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+
+  /* 功能色 */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+}
+
+/* 功能页面通用样式 */
+.page-container {
+  background: var(--light-bg);
+  min-height: 100vh;
+}
+
+/* 卡片样式 */
+.feature-card {
+  background: linear-gradient(145deg, #ffffff, #f8f9fc);
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+              0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: var(--accent-blue);
+}
+
+/* 按钮样式 */
+.btn-primary {
+  background: var(--light-gradient-secondary);
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(79, 70, 229, 0.2);
+}
+
+/* 表单控件样式 */
+.form-control {
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  padding: 12px 16px;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+/* 导航栏样式 */
+.navbar-light {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* 毛玻璃效果 */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 渐变文字 */
+.gradient-text {
+  background: var(--light-gradient-secondary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+/* 机器人图标样式 */
+.robot-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.robot-icon i {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: robotFloat 3s ease-in-out infinite;
+    position: relative;
+    z-index: 2;
+}
+
+/* 机器人悬浮动画 */
+@keyframes robotFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-4px) rotate(-5deg);
+    }
+    75% {
+        transform: translateY(4px) rotate(5deg);
+    }
+}
+
+/* 发光效果 */
+.robot-glow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center,
+        rgba(99, 102, 241, 0.4) 0%,
+        rgba(99, 102, 241, 0.2) 30%,
+        transparent 70%
+    );
+    filter: blur(8px);
+    animation: glowPulse 2s ease-in-out infinite;
+    z-index: 1;
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.2);
+    }
+}
+
+/* 添加交互效果 */
+.robot-icon:hover i {
+    animation: robotShake 0.5s ease-in-out;
+}
+
+@keyframes robotShake {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(-15deg);
+    }
+    75% {
+        transform: rotate(15deg);
+    }
+}
+
+/* 导航栏品牌样式 */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    position: relative;
+}
+
+.navbar-brand:hover .robot-glow {
+    animation: glowPulse 1s ease-in-out infinite;
+}
+
+/* 导航栏链接样式 */
+.navbar-nav .nav-link {
+    position: relative;
+    padding: 0.5rem 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #fff;
+}
+
+/* 导航栏链接激活状态 */
+.nav-link.active {
+    color: #fff !important;
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        rgba(99, 102, 241, 1) 0%,
+        rgba(79, 70, 229, 1) 100%
+    );
+    box-shadow: 
+        0 0 10px rgba(99, 102, 241, 0.5),
+        0 0 20px rgba(99, 102, 241, 0.3);
+    animation: linkGlow 2s infinite;
+}
+
+@keyframes linkGlow {
+    0%, 100% {
+        opacity: 0.8;
+        transform: scaleX(0.95);
+    }
+    50% {
+        opacity: 1;
+        transform: scaleX(1.05);
+    }
+}
+
+/* 导航栏整体样式优化 */
+.navbar-dark {
+    background: transparent;
+    padding: 1rem 0;
+}
+
+.navbar-dark .navbar-nav {
+    margin-left: 2rem;
+}
+
+/* 导航按钮组样式 */
+.nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-buttons .btn {
+    padding: 0.5rem 1.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.nav-buttons .btn-outline-light {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.nav-buttons .btn-outline-light:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+} 

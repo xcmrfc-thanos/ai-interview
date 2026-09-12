@@ -1,0 +1,37 @@
+server:
+  port: 18080
+
+mica:
+  voice:
+    enabled: true
+    models-dir: ${MICA_VOICE_MODELS_DIR:../../third_party/mica-voice/models}
+    threads: 2
+    asr:
+      offline:
+        enabled: false
+      online:
+        enabled: true
+        # 可切换 480/960/1920ms；网关会优先使用显式文件候选，并按目录名推导 chunk 文件名
+        #model-dir-name: x-asr-zh-en-chunk-480ms
+        model-dir-name: x-asr-zh-en-chunk-960ms
+        #model-dir-name: x-asr-zh-en-chunk-1920ms
+        model-type: X_ASR
+        enable-endpoint: true
+        # 面试问句允许词间停顿，避免“请介绍一下”被切成一个独立问题
+        endpoint-rule1-min-trailing-silence: 1.2
+        endpoint-rule2-min-trailing-silence: 1.0
+        endpoint-rule3-min-utterance-length: 0.5
+        # 浏览器输入帧仍按 100ms 传输；它与模型目录的 chunk 时长是两个概念
+        chunk-size: 1600
+    tts:
+      enabled: false
+    speaker:
+      enabled: false
+    vad:
+      enabled: false
+    diarization:
+      enabled: false
+    kws:
+      enabled: false
+    denoise:
+      enabled: false

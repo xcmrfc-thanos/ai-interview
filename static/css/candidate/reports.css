@@ -1,0 +1,364 @@
+/* 添加一些全局动画 */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scoreCount {
+    from { content: "0"; }
+    to { content: "85"; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* 报告容器添加进入动画 */
+.report-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+    animation: slideIn 0.6s ease-out;
+}
+
+/* 报告头部 */
+.report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.header-content h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.report-meta {
+    color: var(--gray-600);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+/* 总体评分区域 */
+.score-overview {
+    background: linear-gradient(135deg, #fff 0%, #f8f9ff 100%);
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.score-overview:hover {
+    transform: translateY(-5px);
+}
+
+.score-card {
+    text-align: center;
+    padding-right: 3rem;
+    border-right: 2px solid rgba(79, 70, 229, 0.1);
+    position: relative;
+}
+
+/* 分数动画效果 */
+.score-value {
+    font-size: 4rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--primary) 0%, #818cf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    position: relative;
+    animation: pulse 2s infinite;
+}
+
+.score-value::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(79, 70, 229, 0.1) 0%, transparent 70%);
+    left: 0;
+    top: 0;
+    z-index: -1;
+}
+
+.score-label {
+    color: var(--gray-600);
+    font-size: 0.875rem;
+}
+
+.score-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    flex: 1;
+}
+
+.detail-item {
+    text-align: center;
+}
+
+.detail-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.detail-label {
+    color: var(--gray-600);
+    font-size: 0.875rem;
+}
+
+/* 评估区域 */
+.assessment-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.strengths, .improvements {
+    background: white;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.strengths:hover, .improvements:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.strengths h2, .improvements h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--gray-100);
+}
+
+.strengths ul, .improvements ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 亮点和建议项动画 */
+.strengths li, .improvements li {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: slideIn 0.4s ease-out forwards;
+}
+
+.strengths li:nth-child(2) { animation-delay: 0.1s; }
+.strengths li:nth-child(3) { animation-delay: 0.2s; }
+.improvements li:nth-child(2) { animation-delay: 0.1s; }
+
+.strengths li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #10B981;
+    font-weight: bold;
+    transform: scale(0);
+    animation: pulse 0.3s ease-out forwards;
+    animation-delay: inherit;
+}
+
+.improvements li::before {
+    content: '!';
+    position: absolute;
+    left: 0;
+    color: #F59E0B;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    background: rgba(245, 158, 11, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0);
+    animation: pulse 0.3s ease-out forwards;
+    animation-delay: inherit;
+}
+
+/* 问答记录 */
+.qa-section {
+    background: white;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.qa-section h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--gray-100);
+}
+
+.qa-item {
+    border: 1px solid rgba(79, 70, 229, 0.1);
+    border-radius: 1rem;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.qa-item:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 20px rgba(79, 70, 229, 0.1);
+}
+
+.question {
+    background: rgba(79, 70, 229, 0.03);
+    padding: 1.5rem;
+    position: relative;
+}
+
+.question::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--primary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.qa-item:hover .question::after {
+    opacity: 1;
+}
+
+.q-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.q-label {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.q-score {
+    background: rgba(79, 70, 229, 0.1);
+    color: var(--primary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.answer {
+    padding: 1.5rem;
+}
+
+.answer p {
+    margin-bottom: 1rem;
+}
+
+.answer ol {
+    counter-reset: item;
+    padding-left: 0;
+}
+
+.answer li {
+    list-style: none;
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.answer li::before {
+    counter-increment: item;
+    content: counter(item);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 24px;
+    height: 24px;
+    background: rgba(79, 70, 229, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .report-container {
+        padding: 1rem;
+    }
+
+    .score-overview {
+        flex-direction: column;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .score-card {
+        padding-right: 0;
+        border-right: none;
+        border-bottom: 1px solid var(--gray-200);
+        padding-bottom: 2rem;
+    }
+
+    .score-details {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .assessment-section {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* 导出按钮效果 */
+.btn-primary {
+    background: var(--primary);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+.btn-primary i {
+    font-size: 1.25rem;
+}

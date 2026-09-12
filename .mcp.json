@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "code-review-graph": {
+      "command": "py",
+      "args": [
+        "-m",
+        "code_review_graph", 
+        "serve"
+      ],
+      "cwd": "E:\\Projects\\SVN\\self_d\\ai-interview",
+      "type": "stdio"
+    }
+  }
+}

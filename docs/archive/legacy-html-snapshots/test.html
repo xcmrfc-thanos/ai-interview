@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        let recognition;
+        let isRecording = false;
+        let transcriptionText = '';
+
+        function startRecording() {
+            if (!recognition) {
+                recognition = new webkitSpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.onresult = function(event) {
+                    for (let i = event.resultIndex; i < event.results.length; ++i) {
+                        if (event.results[i].isFinal) {
+                            transcriptionText += event.results[i][0].transcript;
+                            document.getElementById('transcription').value = transcriptionText;
+                        }
+                    }
+                };
+            }
+            recognition.start();
+            isRecording = true;
+            document.getElementById('recordButton').innerText = '停止录音';
+        }
+
+        function stopRecording() {
+            if (recognition) {
+                recognition.stop();
+                isRecording = false;
+                document.getElementById('recordButton').innerText = '开始录音';
+            }
+        }
+
+        function toggleRecording() {
+            if (isRecording) {
+                stopRecording();
+            } else {
+                startRecording();
+            }
+        }
+    </script>
+</head>
+<body>
+    <button id="recordButton" onclick="toggleRecording()">开始录音</button>
+    <textarea id="transcription" rows="10" cols="50" readonly></textarea>
+</body>
+</html>

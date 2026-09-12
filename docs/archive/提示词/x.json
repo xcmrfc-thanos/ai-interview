@@ -1,0 +1,85 @@
+{
+                  "priority_issues": [
+                    {
+                      "severity": "critical/warning/advice",
+                      "category": "时间矛盾/薪资超标/资质缺失/经验断层/其他",
+                      "description": "问题详细描述及影响分析",
+                      "reference_path": "问题定位字段层级路径（如：工作经历[1].时间段）",
+                      "validation_method": "矛盾点验证逻辑说明"
+                    }
+                  ],
+                  "competency_assessment": {
+                    "overall": {
+                      "score": {
+                        "value": "0-100",
+                        "algorithm": "基于岗位需求权重的加权算法",
+                        "benchmark": "行业同岗位平均分参考值"
+                      },
+                      "description": "三维度综合评价（优势项/达标项/风险项）"
+                    },
+                    "dimensions": {
+                      "核心能力": {
+                        "type": "技术能力/管理能力/专业能力（根据岗位类型自动适配）",
+                        "score": "0-10",
+                        "alignment_analysis": {
+                          "matched": ["匹配证据（引用具体字段，如：项目经验[0].技术栈）", "..."],
+                          "missing": ["缺失要求项（如：认证证书缺失）", "..."],
+                          "exceeding": ["超要求优势项", "..."]
+                        },
+                        "development_plan": ["技术栈深度优化方案（含学习路线）", "..."]
+                      },
+                      "经验价值": {
+                        "score": "0-10",
+                        "project_analysis": {
+                          "相关性": ["相关项目1（项目经验[index]）"],
+                          "可迁移性": ["可复用经验项（如：供应链优化经验）"],
+                          "价值缺口": ["项目成果缺失量化说明"]
+                        },
+                        "quantification_guide": ["STAR法则优化建议"]
+                      },
+                      "职业基本面": {
+                        "education_fit": {
+                          "degree_match": "bool",
+                          "prestige_bonus": "院校溢价系数",
+                          "course_relevance": ["相关课程"]
+                        },
+                        "career_consistency": {
+                          "industry_continuity": "行业延续性分析",
+                          "position_progression": "职级发展合理性"
+                        }
+                      }
+                    }
+                  },
+                  "compensation_analysis": {
+                    "expectation_analysis": {
+                      "current_salary": {
+                        "base": "现薪资基数",
+                        "structure": "薪资组成",
+                        "growth_rate": "历史涨幅"
+                      },
+                      "expected_range": ["期望下限", "期望上限"],
+                      "market_positioning": "期望薪资分位值（P75等）"
+                    },
+                    "position_budget": {
+                      "salary_band": ["下限", "上限"],
+                      "flexibility": "区间弹性空间",
+                      "benefit_package": "福利补偿分析"
+                    },
+                    "negotiation_strategy": {
+                      "match_status": "under/match/over",
+                      "risk_assessment": "薪资超标对录用影响度",
+                      "bargaining_chips": ["可交换价值项"]
+                    }
+                  },
+                  "development_recommendations": {
+                    "resume_optimizations": [
+                      {
+                        "original_snippet": "需优化原文",
+                        "enhanced_version": "专业版改写",
+                        "optimization_principle": "ARTS原则应用说明"
+                      }
+                    ],
+                    "interview_prep_points": ["需重点准备的考察点"],
+                    "long_term_plan": ["三年职业发展路径建议"]
+                  }
+                }

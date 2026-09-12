@@ -1,0 +1,48 @@
+.resume-optimize { min-width: 0; }
+.optimize-context { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; overflow: hidden; border: 1px solid var(--border-subtle); border-radius: 16px; background: var(--border-subtle); box-shadow: var(--shadow-1); }
+.optimize-context > div { min-width: 0; display: grid; gap: 3px; padding: 16px 18px; }
+.optimize-context > div + div { border-left: 0; }
+.optimize-context strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.optimize-context small { color: var(--text-muted); }
+.optimize-label { color: var(--live); font-size: 11px; font-weight: 750; }
+.optimize-status { min-height: 24px; margin: 14px 0; color: var(--text-secondary); font-size: 13px; }
+.optimize-status[data-state="error"] { color: #ffb2b7; }
+.match-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 16px; border: 0; }
+.match-summary > div { min-height: 160px; padding: 20px; border: 1px solid var(--border-subtle); border-radius: 14px; background: var(--bg-raised); box-shadow: 0 4px 14px color-mix(in srgb, var(--bg-canvas) 45%, transparent); }
+.match-summary h2 { margin: 0 0 12px; font-size: 16px; }
+.match-summary ul { margin: 0; padding-left: 20px; color: var(--text-secondary); }
+.keyword-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.keyword-list span { min-height: 28px; display: inline-flex; align-items: center; padding: 3px 9px; border: 1px solid var(--border-strong); border-radius: 999px; color: var(--text-secondary); font-size: 12px; }
+.suggestion-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin: 32px 0 14px; }
+.suggestion-heading h2 { margin: 3px 0 0; font-size: 20px; }
+.suggestion-heading p { margin: 0; color: var(--text-muted); font-size: 13px; }
+.resume-suggestions { display: grid; gap: 12px; }
+.resume-suggestion { border: 1px solid var(--border-subtle); border-radius: 14px; overflow: hidden; background: var(--bg-raised); box-shadow: 0 4px 14px color-mix(in srgb, var(--bg-canvas) 42%, transparent); }
+.suggestion-body { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); }
+.suggestion-column { min-width: 0; padding: 18px; }
+.suggestion-column + .suggestion-column { border-left: 1px solid var(--border-subtle); background: var(--bg-canvas); }
+.suggestion-column h3 { margin: 0 0 9px; color: var(--text-muted); font-size: 12px; }
+.suggestion-column p { margin: 0; line-height: 1.7; white-space: pre-wrap; }
+.suggestion-meta { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 11px 14px; border-top: 1px solid var(--border-subtle); }
+.suggestion-reason { margin: 0; color: var(--text-secondary); font-size: 13px; }
+.suggestion-actions { display: flex; gap: 8px; }
+.suggestion-actions .button { min-height: 44px; }
+.confirmation-flag { display: inline-flex; margin-left: 8px; color: #f7d28b; font-size: 12px; }
+.resume-suggestion[data-confirmed="true"] { border-color: rgba(73, 201, 122, .45); }
+@media (max-width: 900px) {
+  .optimize-context, .match-summary { grid-template-columns: 1fr; }
+  .optimize-context > div + div { border-top: 1px solid var(--border-subtle); border-left: 0; }
+  .match-summary > div { min-height: auto; }
+}
+@media (max-width: 768px) {
+  .suggestion-heading, .suggestion-meta { align-items: stretch; flex-direction: column; }
+  .suggestion-body { grid-template-columns: 1fr; }
+  .suggestion-column + .suggestion-column { border-top: 1px solid var(--border-subtle); border-left: 0; }
+  .suggestion-actions { display: grid; grid-template-columns: 1fr 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+.resume-suggestion:focus-within,.match-summary > div:focus-within { border-color: color-mix(in srgb, var(--primary) 52%, var(--border-strong)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 14%, transparent), var(--shadow-1); }
+.suggestion-actions .button:focus-visible { outline: 3px solid color-mix(in srgb, var(--primary) 70%, transparent); outline-offset: 2px; }
+:root[data-theme="light"] .optimize-status[data-state="error"] { color: #a61b2b; }

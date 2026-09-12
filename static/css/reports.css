@@ -1,0 +1,132 @@
+/* 报告头部 */
+.report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.report-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* 面试总结 */
+.interview-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.summary-item {
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.summary-label {
+    color: #6c757d;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+.summary-value {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+.summary-value.highlight {
+    color: var(--primary-color);
+}
+
+/* 能力评估 */
+.ability-assessment {
+    padding: 20px;
+}
+
+.ability-chart {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* 问答列表 */
+.qa-list {
+    margin-top: 20px;
+}
+
+.qa-item {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.qa-item:last-child {
+    border-bottom: none;
+}
+
+.question,
+.answer {
+    display: flex;
+    gap: 15px;
+}
+
+.question {
+    margin-bottom: 15px;
+}
+
+.question i,
+.answer i {
+    font-size: 24px;
+    color: var(--primary-color);
+}
+
+.answer-content {
+    flex: 1;
+}
+
+.answer-analysis {
+    margin-top: 10px;
+}
+
+.badge {
+    padding: 5px 10px;
+    margin-right: 5px;
+}
+
+/* 表现亮点和建议 */
+.highlights,
+.suggestions {
+    margin-top: 15px;
+}
+
+.highlight-item,
+.suggestion-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.highlight-item i,
+.suggestion-item i {
+    font-size: 20px;
+}
+
+.highlight-item p,
+.suggestion-item p {
+    margin: 0;
+    font-size: 0.9em;
+    color: var(--secondary-color);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .interview-summary {
+        grid-template-columns: 1fr;
+    }
+} 

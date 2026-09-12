@@ -1,0 +1,404 @@
+/* 面试房间样式 */
+.interview-room {
+    height: 100vh;
+    background: var(--gray-900);
+    display: flex;
+    flex-direction: column;
+}
+
+/* 顶部信息栏 */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+}
+
+.interview-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.interview-info h1 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: white;
+    margin: 0;
+}
+
+.timer {
+    font-family: monospace;
+    font-size: 1.125rem;
+    color: var(--primary);
+}
+
+/* 控制按钮组 */
+.interview-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.end-interview-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: 0.5rem;
+    padding-left: 1rem;
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-icon:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-icon i {
+    font-size: 1.25rem;
+}
+
+/* 麦克风按钮 */
+#toggleMic.active {
+    background: var(--primary);
+}
+
+#toggleMic.active i {
+    animation: pulse 2s infinite;
+}
+
+/* 摄像头按钮 */
+#toggleCamera.active {
+    background: var(--primary);
+}
+
+#toggleCamera.off {
+    background: #dc2626;
+}
+
+/* 设置按钮 */
+#toggleSettings.active {
+    background: var(--primary);
+}
+
+/* 全屏按钮 */
+#toggleFullscreen:hover {
+    background: var(--primary);
+}
+
+/* 结束面试按钮 */
+.btn-danger {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 0.625rem 1.25rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+    background: #ef4444;
+    transform: translateY(-1px);
+}
+
+/* 动画效果 */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* 主要内容区域 */
+.main-content {
+    flex: 1;
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+/* 面试官区域 */
+.interviewer-area {
+    flex: 1;
+    background: black;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+/* 右侧面板 */
+.right-panel {
+    width: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* 摄像头预览 */
+.camera-preview {
+    height: 270px;
+    background: black;
+    border-radius: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.camera-preview video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mic-indicator {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0.5rem;
+    border-radius: 6px;
+    color: white;
+}
+
+/* 对话区域 */
+.chat-area {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.chat-input {
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    gap: 0.5rem;
+}
+
+.chat-input textarea {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 6px;
+    padding: 0.75rem;
+    color: white;
+    resize: none;
+}
+
+.chat-input textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-send {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    border: none;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* 设置面板 */
+.settings-panel {
+    position: fixed;
+    top: 0;
+    right: -360px;
+    width: 360px;
+    height: 100vh;
+    background: white;
+    padding: 2rem;
+    transition: right 0.3s ease;
+}
+
+.settings-panel.show {
+    right: 0;
+}
+
+.setting-item {
+    margin-bottom: 1.5rem;
+}
+
+.setting-item label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.radio {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+/* 设置模态框样式 */
+.modal-content {
+    background: var(--gray-800);
+    color: white;
+    border: 1px solid var(--gray-700);
+    border-radius: 12px;
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--gray-700);
+    padding: 1rem 1.5rem;
+}
+
+.modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--gray-700);
+    padding: 1rem 1.5rem;
+}
+
+/* 设置项样式 */
+.setting-item {
+    margin-bottom: 1.5rem;
+}
+
+.setting-item:last-child {
+    margin-bottom: 0;
+}
+
+.setting-item label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--gray-300);
+    font-size: 0.875rem;
+}
+
+/* 下拉选择框样式 */
+.form-select {
+    background-color: var(--gray-700);
+    border: 1px solid var(--gray-600);
+    color: white;
+    border-radius: 6px;
+    margin-bottom: 0.75rem;
+}
+
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+/* 设备测试区域 */
+.device-test {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.volume-indicator {
+    flex: 1;
+    height: 4px;
+    background: var(--gray-700);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.volume-indicator::before {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: var(--primary);
+    transition: width 0.1s ease;
+}
+
+.test-btn {
+    padding: 0.375rem 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* 摄像头测试区域 */
+.camera-test {
+    width: 100%;
+    height: 160px;
+    background: black;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+
+.camera-test video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 麦克风模式选择 */
+.mic-mode {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.mode-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.mode-option input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary);
+}
+
+/* 按钮样式 */
+.btn-primary {
+    background: var(--primary);
+    border: none;
+}
+
+.btn-secondary {
+    background: var(--gray-700);
+    border: none;
+}

@@ -1,0 +1,120 @@
+.button, .icon-button, .field, .select {
+  min-height: 44px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 10px 16px;
+  border: 1px solid color-mix(in srgb, var(--primary) 72%, var(--border-strong));
+  border-radius: 10px;
+  color: var(--on-primary);
+  background: var(--primary);
+  box-shadow: 0 5px 12px color-mix(in srgb, var(--primary) 18%, transparent);
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--motion-fast) ease, border-color var(--motion-fast) ease, opacity var(--motion-fast) ease;
+}
+.button:hover { background: var(--primary-hover); box-shadow: 0 8px 18px color-mix(in srgb, var(--primary) 24%, transparent); transform: translateY(-1px); }
+.button:active { transform: translateY(1px); }
+.button-secondary { background: var(--bg-raised); color: var(--text-primary); border-color: var(--border-strong); box-shadow: none; }
+.button-secondary:hover { color: var(--text-primary); background: var(--bg-subtle); }
+.button-danger { background: transparent; border-color: var(--danger); color: var(--danger); }
+.button:disabled { opacity: .45; cursor: not-allowed; }
+.button:focus-visible, .icon-button:focus-visible, .field:focus-visible, .select:focus-visible { outline-color: var(--focus-ring); }
+
+.icon-button {
+  min-width: 44px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  background: var(--bg-raised);
+  cursor: pointer;
+}
+
+.field-group { display: grid; gap: var(--space-2); }
+.field-group label { color: var(--text-secondary); font-size: 14px; font-weight: 600; }
+.field-help { color: var(--text-muted); font-size: 12px; }
+.field, .select {
+  width: 100%;
+  min-height: 48px;
+  padding: 11px 13px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  outline: none;
+  color: var(--text-primary);
+  background: var(--bg-raised);
+  transition: border-color var(--motion-fast) ease, box-shadow var(--motion-fast) ease, background var(--motion-fast) ease;
+}
+textarea.field { min-height: 132px; resize: vertical; }
+.field:hover, .select:hover { border-color: var(--border-strong); }
+.field:focus, .select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--focus-ring); background: var(--bg-elevated); }
+.select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--text-muted) 50%), linear-gradient(135deg, var(--text-muted) 50%, transparent 50%); background-position: calc(100% - 18px) 20px, calc(100% - 13px) 20px; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 34px; }
+:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+
+.surface { border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--bg-raised); box-shadow: 0 8px 24px var(--surface-glow); }
+.status { display: inline-flex; align-items: center; min-height: 28px; padding: 3px 9px; border: 1px solid var(--border-subtle); border-radius: 999px; color: var(--text-secondary); font-size: 13px; }
+.status[data-state="confirmed"] { border-color: rgba(73, 201, 122, .45); color: #8be3aa; }
+.status[data-state="outdated"], .status[data-state="needs_review"] { border-color: rgba(241, 186, 81, .45); color: #f7d28b; }
+.status[data-state="failed"] { border-color: color-mix(in srgb, var(--danger) 52%, var(--border-subtle)); color: var(--danger); }
+:root[data-theme="light"] .status[data-state="confirmed"] { border-color: color-mix(in srgb, var(--success) 50%, var(--border-subtle)); color: var(--success); }
+:root[data-theme="light"] .status[data-state="outdated"], :root[data-theme="light"] .status[data-state="needs_review"] { border-color: color-mix(in srgb, var(--warning) 52%, var(--border-subtle)); color: var(--warning); }
+.tag { display: inline-flex; align-items: center; min-height: 28px; padding: 3px 9px; border: 1px solid var(--border-subtle); border-radius: 999px; color: var(--text-secondary); background: var(--bg-subtle); font-size: 12px; line-height: 1.2; }
+.eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--live); font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.eyebrow::before { content: ""; width: 22px; height: 2px; background: currentColor; }
+.empty-state { min-height: 180px; display: grid; place-items: center; align-content: center; gap: 10px; padding: 32px; border: 1px dashed var(--border-strong); border-radius: 14px; color: var(--text-secondary); text-align: center; background: color-mix(in srgb, var(--bg-raised) 72%, transparent); }.empty-state p{margin:0}.empty-state i{color:var(--primary-hover);font-size:32px}.empty-state .button{margin-top:4px}
+.form-error { color: var(--danger); }
+
+.dialog { width: min(680px, calc(100% - 24px)); max-height: calc(100dvh - 32px); overflow: auto; padding: 0; border: 1px solid var(--border-strong); border-radius: var(--radius-md); color: var(--text-primary); background: var(--bg-elevated); box-shadow: var(--shadow-1); }
+.dialog::backdrop { background: rgba(0, 0, 0, .68); }
+.dialog-header, .dialog-body, .dialog-footer { padding: var(--space-5); }
+.dialog-header { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); border-bottom: 1px solid var(--border-subtle); background: var(--bg-elevated); }
+.dialog-header h2 { margin: 0; font-size: 20px; }
+.dialog-body { display: grid; gap: var(--space-4); }
+.dialog-footer { position: sticky; bottom: 0; display: flex; justify-content: flex-end; gap: var(--space-3); border-top: 1px solid var(--border-subtle); background: var(--bg-elevated); }
+
+@media (max-width: 768px) {
+  .dialog { width: calc(100% - 24px); max-height: calc(100dvh - 24px); }
+  .dialog-header, .dialog-body, .dialog-footer { padding: var(--space-4); }
+  .dialog-footer { display: grid; grid-template-columns: 1fr 1fr; }
+  .dialog-footer .button { width: 100%; }
+}
+
+/* ===== 原生表单控件统一外观 ===== */
+::placeholder { color: var(--text-muted); opacity: 1; }
+input[type="checkbox"], input[type="radio"] { width: 17px; height: 17px; flex: 0 0 auto; accent-color: var(--primary); cursor: pointer; }
+select option { color: var(--text-primary); background: var(--bg-raised); }
+select optgroup { color: var(--text-secondary); background: var(--bg-raised); }
+select option:disabled { color: var(--text-muted); }
+details > summary::-webkit-details-marker { color: var(--text-muted); }
+summary { cursor: pointer; }
+
+.field:disabled, .select:disabled { opacity: .55; cursor: not-allowed; }
+.field::placeholder { opacity: .78; }
+
+/* 日期/时间控件：日历图标着色，空值时文字用弱化色 */
+input[type="date"].field, input[type="time"].field, input[type="datetime-local"].field, input[type="month"].field, input[type="week"].field { min-height: 48px; }
+input[type="date"].field::-webkit-calendar-picker-indicator, input[type="time"].field::-webkit-calendar-picker-indicator, input[type="datetime-local"].field::-webkit-calendar-picker-indicator, input[type="month"].field::-webkit-calendar-picker-indicator, input[type="week"].field::-webkit-calendar-picker-indicator { opacity: .72; cursor: pointer; filter: invert(.72) sepia(.32) saturate(2.1) hue-rotate(215deg); }
+:root[data-theme="light"] input[type="date"].field::-webkit-calendar-picker-indicator, :root[data-theme="light"] input[type="time"].field::-webkit-calendar-picker-indicator, :root[data-theme="light"] input[type="datetime-local"].field::-webkit-calendar-picker-indicator, :root[data-theme="light"] input[type="month"].field::-webkit-calendar-picker-indicator, :root[data-theme="light"] input[type="week"].field::-webkit-calendar-picker-indicator { opacity: .62; filter: none; }
+input[type="date"].field:invalid::-webkit-datetime-edit, input[type="time"].field:invalid::-webkit-datetime-edit { color: var(--text-muted); }
+
+/* 数字控件：弱化原生步进按钮，保持键盘可用 */
+input[type="number"].field { font-variant-numeric: tabular-nums; }
+input[type="number"].field::-webkit-outer-spin-button, input[type="number"].field::-webkit-inner-spin-button { opacity: .35; }
+input[type="number"].field:hover::-webkit-outer-spin-button, input[type="number"].field:hover::-webkit-inner-spin-button, input[type="number"].field:focus::-webkit-outer-spin-button, input[type="number"].field:focus::-webkit-inner-spin-button { opacity: .8; }
+
+/* 搜索控件：清除按钮与主题协调 */
+input[type="search"].field::-webkit-search-cancel-button { cursor: pointer; opacity: .55; }
+input[type="search"].field:hover::-webkit-search-cancel-button { opacity: .9; }
+
+/* 自动填充背景与主题一致 */
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus { -webkit-box-shadow: 0 0 0 1000px var(--bg-elevated) inset; -webkit-text-fill-color: var(--text-primary); caret-color: var(--text-primary); transition: background-color 9999999s ease-in-out 0s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

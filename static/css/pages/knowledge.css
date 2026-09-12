@@ -1,0 +1,37 @@
+.settings-subnav { display: flex; gap: var(--space-1); margin-bottom: var(--space-5); border-bottom: 1px solid var(--border-subtle); }
+.settings-subnav a { min-height: 44px; display: inline-flex; align-items: center; padding: 8px 12px; color: var(--text-secondary); text-decoration: none; border-bottom: 2px solid transparent; }
+.settings-subnav a[aria-current="page"] { color: var(--text-primary); border-color: var(--primary); }
+.knowledge-toolbar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-4); }
+.knowledge-search { flex: 1; max-width: 620px; display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; align-items: center; gap: var(--space-2); }
+.knowledge-search .field { grid-column: 2; grid-row: 1; }
+.knowledge-search > i { grid-column: 1; grid-row: 1; color: var(--text-muted); font-size: 20px; }
+.knowledge-search .button { grid-column: 3; grid-row: 1; }
+.knowledge-actions { display: flex; gap: var(--space-2); }
+.knowledge-status { min-height: 36px; color: var(--text-secondary); }
+.knowledge-list { border-top: 1px solid var(--border-subtle); }
+.knowledge-item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-4); padding: 20px 0; border-bottom: 1px solid var(--border-subtle); }
+.knowledge-item h2 { margin: 0 0 4px; font-size: 18px; }
+.knowledge-item p { margin: 0; color: var(--text-secondary); }
+.knowledge-meta, .knowledge-item-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.knowledge-meta { margin-top: var(--space-3); color: var(--text-muted); font-size: 13px; }
+.knowledge-item-actions { align-self: center; }
+.knowledge-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+.knowledge-wide { grid-column: 1 / -1; }
+.file-field { padding: 8px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.knowledge-toolbar { padding: 16px; border: 1px solid var(--border-subtle); border-radius: 16px; background: var(--bg-raised); box-shadow: var(--shadow-1); }
+.knowledge-search .field { border-radius: 10px; background: var(--bg-subtle); }.knowledge-search .field:focus { background: var(--bg-raised); }.knowledge-actions .button { border-radius: 10px; box-shadow: none; }
+.knowledge-status { margin: 16px 2px 10px; }.knowledge-list { display: grid; gap: 10px; border: 0; }.knowledge-item { padding: 20px; border: 1px solid var(--border-subtle); border-radius: 14px; background: var(--bg-raised); box-shadow: 0 4px 14px color-mix(in srgb, var(--bg-canvas) 45%, transparent); transition: border-color var(--motion-fast) ease, transform var(--motion-fast) ease, box-shadow var(--motion-fast) ease; }.knowledge-item:hover { border-color: color-mix(in srgb, var(--primary) 44%, var(--border-subtle)); transform: translateY(-1px); box-shadow: var(--shadow-1); }.knowledge-item h2 { font-size: 19px; letter-spacing: -.015em; }.knowledge-item-actions .button { box-shadow: none; }.knowledge-meta span { padding: 4px 8px; border-radius: 6px; background: var(--bg-subtle); }
+@media (max-width: 768px) {
+  .knowledge-toolbar, .knowledge-item { align-items: stretch; grid-template-columns: 1fr; flex-direction: column; }
+  .knowledge-search { width: 100%; max-width: none; grid-template-columns: 24px minmax(0, 1fr); }
+  .knowledge-search .button { grid-column: 1 / -1; grid-row: 2; }
+  .knowledge-actions, .knowledge-actions .button { flex: 1; }
+  .knowledge-form-grid { grid-template-columns: 1fr; }
+  .knowledge-wide { grid-column: auto; }
+  .knowledge-item-actions .button { flex: 1; }
+}
+.knowledge-toolbar:focus-within { border-color: color-mix(in srgb, var(--primary) 44%, var(--border-subtle)); }
+.knowledge-item:focus-within { border-color: color-mix(in srgb, var(--primary) 52%, var(--border-strong)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 14%, transparent), var(--shadow-1); }
+.knowledge-item-actions .button:focus-visible,.knowledge-actions .button:focus-visible { outline: 3px solid color-mix(in srgb, var(--primary) 70%, transparent); outline-offset: 2px; }
+@media (max-width: 480px) { .knowledge-toolbar { padding: 14px; } .knowledge-actions { display: grid; grid-template-columns: 1fr 1fr; } .knowledge-actions .button { width: 100%; } }

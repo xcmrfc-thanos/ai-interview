@@ -1,0 +1,38 @@
+/* 求职者控制台样式 */
+.dashboard-page {
+    background: var(--gray-100);
+}
+
+/* 侧边栏样式 */
+#sidebar {
+    width: 240px;
+    background: white;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    border-right: 1px solid var(--gray-200);
+    padding: 1.5rem;
+}
+
+/* 主要内容区域 */
+.main-content {
+    margin-left: 240px;
+    padding: 2rem;
+}
+
+/* 数据卡片 */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* 图表卡片 */
+.chart-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}

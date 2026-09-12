@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI面试官 - 面试管理</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/dashboard.css" rel="stylesheet">
+    <link href="/static/css/employer/dashboard.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f8f9fa;
+            --text-primary: #2c3e50;
+            --text-secondary: #6c757d;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        /* 侧边栏样式优化 */
+        #sidebar {
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            width: 250px;
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            padding: 20px 0;
+        }
+
+        .nav-links li {
+            padding: 0 20px;
+            margin-bottom: 5px;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover, .nav-links .active a {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .nav-links i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* 顶部栏样式优化 */
+        .top-bar {
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            border-radius: var(--border-radius);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .page-title {
+            color: var(--text-primary);
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .quick-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-item {
+            background: var(--secondary-color);
+            padding: 8px 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-item i {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .stat-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .notification-bell:hover {
+            background: var(--secondary-color);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--danger-color);
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 5px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .user-menu:hover {
+            background: var(--secondary-color);
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .user-role {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+        }
+
+        .dropdown-toggle {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* 主要内容区域样式 */
+        .main-content {
+            padding: 30px;
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        .dashboard-content {
+            padding: 20px;
+        }
+
+        /* 表格样式优化 */
+        .table-responsive {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            margin-top: 20px;
+        }
+
+        .table {
+            margin: 0;
+        }
+
+        .table thead th {
+            background: var(--secondary-color);
+            border: none;
+            padding: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            border-bottom: 1px solid #eee;
+        }
+
+        .table tbody tr:hover {
+            background: var(--secondary-color);
+        }
+
+        /* 状态标签样式 */
+        .status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .status.已投递 {
+            background: #e3f2fd;
+            color: var(--primary-color);
+        }
+
+        .status.已查看 {
+            background: #fff3cd;
+            color: var(--warning-color);
+        }
+
+        .status.待定 {
+            background: #d4edda;
+            color: var(--success-color);
+        }
+
+        /* 按钮样式优化 */
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .btn-outline-primary {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-outline-info {
+            border-color: #17a2b8;
+            color: #17a2b8;
+        }
+
+        .btn-outline-info:hover {
+            background: #17a2b8;
+            color: white;
+        }
+
+        /* 搜索框样式 */
+        .input-group {
+            max-width: 300px;
+        }
+
+        .form-control {
+            border-radius: var(--border-radius);
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
+            border-color: var(--primary-color);
+        }
+
+        /* 排序图标样式 */
+        .bx-sort {
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .bx-sort:hover {
+            color: var(--primary-color);
+        }
+
+        /* 高分数据行样式 */
+        .high-score {
+            background-color: rgba(40, 167, 69, 0.1) !important;
+        }
+
+        .high-score td {
+            font-weight: 500;
+        }
+
+        /* 响应式优化 */
+        @media (max-width: 768px) {
+            #sidebar {
+                width: 0;
+                position: fixed;
+                height: 100%;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .table-responsive {
+                padding: 10px;
+            }
+        }
+
+        /* 职位详情样式 */
+        .job-details-container {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            padding: 24px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f5f5f5;
+            padding-bottom: 10px;
+        }
+
+        .section-header h5 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin: 0;
+            font-size: 1.25rem;
+        }
+
+        .job-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .job-detail-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .job-detail-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .job-detail-item h6 {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .job-detail-item p {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 1.1rem;
+            word-break: break-word;
+        }
+
+        .job-description, .job-requirements {
+            grid-column: 1 / -1;
+        }
+
+        /* 伸缩框样式 */
+        .collapsible-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 10px 0;
+        }
+
+        .collapsible-header i {
+            transition: transform 0.3s ease;
+        }
+
+        .collapsible-header.collapsed i {
+            transform: rotate(-180deg);
+        }
+
+        .collapsible-content {
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+
+        .collapsible-content.collapsed {
+            max-height: 0;
+        }
+    </style>
+</head>
+<body class="dashboard-page">
+    <div class="dashboard-container">
+        <!-- 侧边栏 -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class='bx bx-bot'></i>
+                    <span>AI面试官</span>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li>
+                    <a href="/company/dashboard">
+                        <i class='bx bxs-dashboard'></i>
+                        <span>控制台</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="/company/jobManage">
+                        <i class='bx bx-briefcase'></i>
+                        <span>职位管理</span>
+                    </a>
+                </li>
+{#                <li>#}
+{#                    <a href="candidates.html">#}
+{#                        <i class='bx bx-user-pin'></i>#}
+{#                        <span>候选人</span>#}
+{#                    </a>#}
+{#                </li>#}
+{#                <li>#}
+{#                    <a href="candidates.html">#}
+{#                        <i class='bx bx-question'></i>#}
+{#                        <span>面试题库</span>#}
+{#                    </a>#}
+{#                </li>#}
+{#                <li>#}
+{#                    <a href="settings.html">#}
+{#                        <i class='bx bx-cog'></i>#}
+{#                        <span>企业设置</span>#}
+{#                    </a>#}
+{#                </li>#}
+            </ul>
+        </nav>
+        <!-- 主要内容区域 -->
+        <main class="main-content">
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <h1>面试管理</h1>
+                    <div class="quick-stats">
+                        <div class="stat-item">
+                            <i class='bx bx-envelope'></i>
+                            <div class="stat-info">
+                                <span class="stat-label">今日投递</span>
+                                <span class="stat-value">{{ today_applications|default(0) }}</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class='bx bx-time'></i>
+                            <div class="stat-info">
+                                <span class="stat-label">待处理</span>
+                                <span class="stat-value">{{ pending_applications|default(0) }}</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class='bx bx-calendar'></i>
+                            <div class="stat-info">
+                                <span class="stat-label">今日面试</span>
+                                <span class="stat-value">{{ today_interviews|default(0) }}</span>
+                            </div>
+                        </div>
+                        <a href="/api/candidates?job_id={{ job.job_id }}" class="btn btn-primary d-flex align-items-center gap-2">
+                            <i class='bx bx-user-pin'></i>
+                            查看候选人列表
+                        </a>
+                        <a href="#" class="btn btn-primary weight">
+                            设置权重
+                        </a>
+
+                        <script>
+document.querySelector('.btn.btn-primary.weight').addEventListener('click', function(e) {
+    e.preventDefault();
+    var scoreWeightsModal = new bootstrap.Modal(document.getElementById('scoreWeightsModal'));
+    scoreWeightsModal.show();
+});
+</script>
+
+
+             <div class="modal fade" id="scoreWeightsModal" tabindex="-1" aria-labelledby="scoreWeightsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="scoreWeightsModalLabel">面试评分权重设置</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+      </div>
+      <div class="modal-body">
+        <!-- 原 score_weights.html 文件中的样式及内容嵌入到模态框中 -->
+        <style>
+          :root {
+              --primary-color: #4a90e2;
+              --error-color: #ff4d4f;
+              --success-color: #52c41a;
+              --border-radius: 8px;
+              --gradient-purple: linear-gradient(135deg, #9c27b0, #673ab7);
+          }
+
+          .weight-container {
+              max-width: 700px;
+              margin: 0 auto;
+              padding: 20px;
+              background: white;
+              border-radius: var(--border-radius);
+              box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+          }
+
+          .page-title {
+              color: white;
+              font-size: 20px;
+              font-weight: 600;
+              margin-bottom: 15px;
+              padding: 12px 20px;
+              background: var(--gradient-purple);
+              border-radius: var(--border-radius);
+              box-shadow: 0 2px 8px rgba(156, 39, 176, 0.2);
+          }
+
+          .form-label {
+              font-weight: 500;
+              color: #4a5568;
+              margin-bottom: 4px;
+              font-size: 14px;
+          }
+
+          .form-control {
+              border: 2px solid #e2e8f0;
+              border-radius: var(--border-radius);
+              padding: 6px 12px;
+              height: auto;
+              transition: all 0.3s ease;
+          }
+
+          .form-control:focus {
+              border-color: var(--primary-color);
+              box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+          }
+
+          .weight-group {
+              position: relative;
+              margin-bottom: 12px;
+              padding: 12px;
+              background: #f8fafc;
+              border-radius: var(--border-radius);
+              transition: all 0.3s ease;
+          }
+
+          .weight-group:hover {
+              background: #f1f5f9;
+          }
+
+          .weight-icon {
+              position: absolute;
+              right: 15px;
+              top: 50%;
+              transform: translateY(-50%);
+              color: var(--primary-color);
+              font-size: 18px;
+              opacity: 0.5;
+          }
+
+          .weight-sum {
+              margin: 15px 0;
+              padding: 12px 20px;
+              background: var(--gradient-purple);
+              border-radius: var(--border-radius);
+              color: white;
+              font-weight: 600;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              font-size: 14px;
+              box-shadow: 0 2px 8px rgba(156, 39, 176, 0.2);
+          }
+
+          .weight-sum.invalid {
+              background: linear-gradient(135deg, #f44336, #e91e63);
+              color: white;
+          }
+
+          .btn-primary {
+              background-color: var(--primary-color);
+              border: none;
+              padding: 10px 20px;
+              border-radius: var(--border-radius);
+              font-weight: 600;
+              transition: all 0.3s ease;
+              margin-top: 10px;
+          }
+
+          .btn-primary:hover {
+              background-color: #357abd;
+              transform: translateY(-1px);
+              box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
+          }
+
+          @media (max-width: 768px) {
+              .weight-container {
+                  margin: 0 10px;
+                  padding: 15px;
+              }
+              .weight-group {
+                  padding: 10px;
+                  margin-bottom: 10px;
+              }
+          }
+        </style>
+        <div class="weight-container">
+            <div style="display: flex" class="page-title">
+                <h2 class="page-title">面试评分权重设置</h2>
+                <button>添加</button>
+            </div>
+
+          <form id="weightForm">
+              <div class="weight-group">
+{#                  <label for="technical_weight" class="form-label">技术能力权重</label>#}
+                  <input for="technical_weight" class="form-label">
+                  <input type="number" class="form-control weight-input" id="technical_weight"
+                         step="0.01" min="0" max="1" required>
+                  <i class='bx bx-code-alt weight-icon'></i>
+                  <button>删除</button>
+              </div>
+              <div class="weight-group">
+                  <label for="learning_weight" class="form-label">学习能力权重</label>
+                  <input type="number" class="form-control weight-input" id="learning_weight"
+                         step="0.01" min="0" max="1" required>
+                  <i class='bx bx-book weight-icon'></i>
+              </div>
+              <div class="weight-group">
+                  <label for="team_weight" class="form-label">团队协作权重</label>
+                  <input type="number" class="form-control weight-input" id="team_weight"
+                         step="0.01" min="0" max="1" required>
+                  <i class='bx bx-group weight-icon'></i>
+              </div>
+              <div class="weight-group">
+                  <label for="problem_solving_weight" class="form-label">问题解决权重</label>
+                  <input type="number" class="form-control weight-input" id="problem_solving_weight"
+                         step="0.01" min="0" max="1" required>
+                  <i class='bx bx-bulb weight-icon'></i>
+              </div>
+              <div class="weight-group">
+                  <label for="communication_weight" class="form-label">沟通表达权重</label>
+                  <input type="number" class="form-control weight-input" id="communication_weight"
+                         step="0.01" min="0" max="1" required>
+                  <i class='bx bx-conversation weight-icon'></i>
+              </div>
+              <div class="weight-sum">
+                  <span>权重总和</span>
+                  <span id="weightSum">0</span>
+              </div>
+              <button type="submit" class="btn btn-primary w-100" id="submitBtn">保存设置</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+                    </div>
+                </div>
+                <div class="top-bar-right">
+                    <div class="notification-bell">
+                        <i class='bx bx-bell' style="font-size: 1.5rem;"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="user-menu">
+                        <img src="{{ url_for('static', filename='applicant_logo/img.png') }}" alt="企业Logo" class="avatar">
+                        <div class="user-info">
+                            <span class="user-name">{{ company_name }}</span>
+                            <span class="user-role">企业管理员</span>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                                {{ company_name }}
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="settings.html"><i class='bx bx-cog'></i> 企业设置</a></li>
+                                <li><a class="dropdown-item" href="profile.html"><i class='bx bx-user'></i> 个人信息</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/logout"><i class='bx bx-log-out'></i> 退出登录</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <!-- 职位详情 -->
+                <div class="job-details-container">
+                    <div class="section-header collapsible-header">
+                        <h5>职位详情</h5>
+                        <i class='bx bx-chevron-up'></i>
+                    </div>
+                    <div class="job-details collapsible-content">
+                        <div class="job-detail-item">
+                            <h6>职位名称</h6>
+                            <p>{{ job.title }}</p>
+                        </div>
+                        <div class="job-detail-item">
+                            <h6>职位类型</h6>
+                            <p>{{ job.job_type }}</p>
+                        </div>
+                        <div class="job-detail-item">
+                            <h6>薪资范围</h6>
+                            <p>{{ job.min_salary }} - {{ job.max_salary }}</p>
+                        </div>
+                        <div class="job-detail-item">
+                            <h6>工作地点</h6>
+                            <p>{{ job.location }}</p>
+                        </div>
+                        <div class="job-detail-item job-description">
+                            <h6>职位描述</h6>
+                            <p>{{ job.description }}</p>
+                        </div>
+                        <div class="job-detail-item job-requirements">
+                            <h6>职位要求</h6>
+                            <p>{{ job.requirements }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 投递人列表 -->
+                <div class="section-header">
+                    <h5>投递人列表</h5>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="searchInput" placeholder="按姓名搜索">
+                </div>
+                <div class="table-responsive">
+                    <table class="table" id="applicantTable">
+                        <thead>
+                            <tr>
+                                <th>姓名</th>
+                                <th>状态</th>
+                                <th>总分 <i class="bx bx-sort" data-column="总分"></i></th>
+                                <th>技术匹配 <i class="bx bx-sort" data-column="技术匹配"></i></th>
+                                <th>经验匹配 <i class="bx bx-sort" data-column="经验匹配"></i></th>
+                                <th>教育匹配 <i class="bx bx-sort" data-column="教育匹配"></i></th>
+                                <th>潜力匹配 <i class="bx bx-sort" data-column="潜力匹配"></i></th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for applicant in applicants %}
+                            {% if applicant.status != '拒绝' %}
+                            <tr class="{{ 'high-score' if applicant.total_score >= 8 else '' }}">
+                                <td>{{ applicant.full_name }}</td>
+                                <td><span class="status {{ applicant.status }}">{{ applicant.status }}</span></td>
+                                <td>{{ applicant.total_score }}</td>
+                                <td>{{ applicant.tech_match }}</td>
+                                <td>{{ applicant.experience_match }}</td>
+                                <td>{{ applicant.education_match }}</td>
+                                <td>{{ applicant.potential_match }}</td>
+                                <td>
+                                    {% if applicant.status == '已投递' %}
+                                    <button class="btn btn-outline-primary mark-viewed" data-app-id="{{ applicant.application_id }}">标记为已查看</button>
+                                    <button class="btn btn-outline-info view-resume-report" data-resume-id="{{ applicant.resume }}">查看简历报告</button>
+                                    <button class="btn btn-outline-danger reject-application" data-app-id="{{ applicant.application_id }}">拒绝</button>
+                                    {% elif applicant.status == '已查看' %}
+                                    <button class="btn btn-outline-primary send-invitation" data-app-id="{{ applicant.application_id }}">发送面试邀请</button>
+                                    <button class="btn btn-outline-danger reject-application" data-app-id="{{ applicant.application_id }}">拒绝</button>
+                                    {% elif applicant.status == '待定' %}
+                                    <button class="btn btn-outline-info view-interview-report" onclick="window.location.href='/api/interview_report/{{ applicant.application_id }}'">点击查看面试报告</button>
+                                    <button class="btn btn-outline-danger reject-application" data-app-id="{{ applicant.application_id }}">拒绝</button>
+                                    <button class="btn btn-outline-success accept-application" data-app-id="{{ applicant.application_id }}">录取</button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 伸缩框功能
+            const collapsibleHeaders = document.querySelectorAll('.collapsible-header');
+            
+            collapsibleHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const icon = this.querySelector('i');
+                    
+                    this.classList.toggle('collapsed');
+                    content.classList.toggle('collapsed');
+                    
+                    // 保存状态到 localStorage
+                    const isCollapsed = content.classList.contains('collapsed');
+                    localStorage.setItem('jobDetailsCollapsed', isCollapsed);
+                });
+                
+                // 恢复上次的状态
+                const wasCollapsed = localStorage.getItem('jobDetailsCollapsed') === 'true';
+                if (wasCollapsed) {
+                    header.classList.add('collapsed');
+                    header.nextElementSibling.classList.add('collapsed');
+                }
+            });
+
+            // 查看简历按钮点击事件
+            document.querySelectorAll('.view-resume').forEach(button => {
+                button.addEventListener('click', function() {
+                    const resume = JSON.parse(this.getAttribute('data-resume'));
+                    alert(JSON.stringify(resume, null, 2));
+                });
+            });
+
+            // 标记为已查看按钮点击事件
+            document.querySelectorAll('.mark-viewed').forEach(button => {
+                button.addEventListener('click', function() {
+                    const appId = this.getAttribute('data-app-id');
+                    fetch(`/api/mark_viewed/${appId}`, {
+                        method: 'POST'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('状态已更新为已查看');
+                            window.location.reload();
+                        } else {
+                            alert('更新状态失败');
+                        }
+                    });
+                });
+            });
+
+            // 发送面试邀请按钮点击事件
+            document.querySelectorAll('.send-invitation').forEach(button => {
+                button.addEventListener('click', function() {
+                    const appId = this.getAttribute('data-app-id');
+                    fetch(`/api/send_invitation/${appId}`, {
+                        method: 'POST'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('面试邀请已发送');
+                            window.location.reload();
+                        } else {
+                            alert('发送面试邀请失败');
+                        }
+                    });
+                });
+            });
+
+            // 查看简历报告按钮点击事件
+            document.querySelectorAll('.view-resume-report').forEach(button => {
+                button.addEventListener('click', function() {
+                    const resumeId = this.getAttribute('data-resume-id');
+                    fetch('/api/analyze_resumeReport', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ resume_id: resumeId })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('简历报告已准备');
+                            window.location.href = '/applicant/resume_report';
+                        } else {
+                            alert('获取简历报告失败: ' + data.message);
+                        }
+                    });
+                });
+            });
+
+            // 搜索功能
+            const searchInput = document.getElementById('searchInput');
+            const tableRows = document.querySelectorAll('#applicantTable tbody tr');
+
+            searchInput.addEventListener('input', function() {
+                const filter = searchInput.value.toLowerCase();
+                tableRows.forEach(row => {
+                    const name = row.cells[0].textContent.toLowerCase();
+                    if (name.includes(filter)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+
+            // 排序功能
+            const headers = document.querySelectorAll('#applicantTable th');
+            const tableBody = document.querySelector('#applicantTable tbody');
+            const rows = Array.from(tableBody.querySelectorAll('tr'));
+            let currentSortColumn = null;
+            let isAscending = true;
+
+            headers.forEach(header => {
+                const icon = header.querySelector('i');
+                if (icon) {
+                    header.addEventListener('click', () => {
+                        const index = Array.from(header.parentNode.children).indexOf(header);
+                        const column = icon.getAttribute('data-column');
+                        const isNumeric = ['总分', '技术匹配', '经验匹配', '教育匹配', '潜力匹配'].includes(column);
+
+                        // Reset icons
+                        headers.forEach(h => {
+                            const i = h.querySelector('i');
+                            if (i) {
+                                i.className = 'bx bx-sort';
+                            }
+                        });
+
+                        // Toggle sort direction
+                        if (column === currentSortColumn) {
+                            isAscending = !isAscending;
+                        } else {
+                            isAscending = true;
+                            currentSortColumn = column;
+                        }
+
+                        // Set icon for current column
+                        icon.className = `bx ${isAscending ? 'bx-sort-up' : 'bx-sort-down'}`;
+
+                        rows.sort((rowA, rowB) => {
+                            const cellA = rowA.cells[index].textContent.trim();
+                            const cellB = rowB.cells[index].textContent.trim();
+
+                            if (isNumeric) {
+                                return isAscending ? parseFloat(cellA) - parseFloat(cellB) : parseFloat(cellB) - parseFloat(cellA);
+                            } else {
+                                return isAscending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+                            }
+                        });
+
+                        rows.forEach(row => tableBody.appendChild(row));
+                    });
+                }
+            });
+
+            // 拒绝申请按钮点击事件
+            document.querySelectorAll('.reject-application').forEach(button => {
+                button.addEventListener('click', function() {
+                    const appId = this.getAttribute('data-app-id');
+                    if (confirm('确定要拒绝此申请吗？')) {
+                        fetch(`/api/reject/${appId}`, {
+                            method: 'POST'
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('申请已拒绝');
+                                window.location.reload();
+                            } else {
+                                alert('拒绝申请失败: ' + data.message);
+                            }
+                        });
+                    }
+                });
+            });
+
+            // 录取申请按钮点击事件
+            document.querySelectorAll('.accept-application').forEach(button => {
+                button.addEventListener('click', function() {
+                    const appId = this.getAttribute('data-app-id');
+                    if (confirm('确定要录取此申请吗？')) {
+                        fetch(`/api/accept/${appId}`, {
+                            method: 'GET'
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('申请已录取');
+                                window.location.reload();
+                            } else {
+                                alert('录取申请失败: ' + data.message);
+                            }
+                        });
+                    }
+                });
+            });
+
+        });
+
+// 添加权重项函数
+function addWeightItem() {
+  const newItem = `
+    <div class="weight-group">
+      <div class="mb-2">
+        <input type="text" class="form-control weight-name" placeholder="请输入权重名称" required>
+      </div>
+      <div class="mb-3">
+        <input type="number" class="form-control weight-input" step="0.01" min="0" max="1" required>
+      </div>
+      <button type="button" class="btn btn-danger btn-sm remove-btn">删除</button>
+    </div>
+  `;
+
+  document.querySelector('.weight-items').insertAdjacentHTML('beforeend', newItem);
+
+  // 为新添加的删除按钮绑定事件
+  document.querySelectorAll('.remove-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const item = e.target.closest('.weight-group');
+      item.remove();
+      updateWeightSum();
+    });
+  });
+
+  const newInput = document.querySelectorAll('.weight-input').slice(-1)[0];
+  newInput.addEventListener('input', updateWeightSum);
+}
+
+// 初始化添加一个默认权重项
+document.addEventListener('DOMContentLoaded', () => {
+  addWeightItem();
+  // 初始化时计算初始总和
+  updateWeightSum();
+});
+
+// 权重总和计算
+function updateWeightSum() {
+  let total = 0;
+  document.querySelectorAll('.weight-input').forEach(input => {
+    const value = parseFloat(input.value) || 0;
+    total += value;
+  });
+
+  const sumDisplay = document.getElementById('weightSum');
+  sumDisplay.textContent = total.toFixed(2);
+
+  const sumContainer = document.querySelector('.weight-sum');
+  if (total > 1) {
+    sumContainer.classList.add('invalid');
+  } else {
+    sumContainer.classList.remove('invalid');
+  }
+}
+
+// 表单提交处理
+document.getElementById('weightForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const items = Array.from(document.querySelectorAll('.weight-group'));
+  const weights = items.map(item => ({
+    name: item.querySelector('.weight-name').value.trim(),
+    value: parseFloat(item.querySelector('.weight-input').value)
+  }));
+
+  // 验证
+  const isValid = weights.every(w => w.name && !isNaN(w.value));
+  if (!isValid) {
+    alert('请输入有效的权重名称和数值');
+    return;
+  }
+
+  const total = weights.reduce((sum, w) => sum + w.value, 0);
+  if (total !== 1) {
+    alert('权重总和必须等于1');
+    return;
+  }
+
+  // 发送数据到后端（需替换为实际API）
+  fetch('/api/save-weights', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ weights })
+  }).then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert('保存成功');
+        document.getElementById('scoreWeightsModal').dispatchEvent(new Event('hidden.bs.modal'));
+      } else {
+        alert('保存失败');
+      }
+    });
+});
+
+// 为现有输入框绑定事件（防止遗漏）
+document.querySelectorAll('.weight-input').forEach(input => {
+  input.addEventListener('input', updateWeightSum);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>上传简历</title>
+</head>
+<body>
+    <h1>上传简历</h1>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="上传">
+    </form>
+</body>
+</html>
+
+
+@app.route('/upload_resume', methods=['GET', 'POST'])
+def upload_resume():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+
+        file = request.files['file']
+
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            file_data = file.read()
+            filename = file.filename
+
+            new_resume = Resume(
+                user_id=1,  # 假设用户ID为1，实际应用中应从session或其他方式获取
+                file_data=file_data,
+                filename=filename
+            )
+
+            db.session.add(new_resume)
+            db.session.commit()
+
+            flash('Resume uploaded successfully')
+            return redirect(url_for('candidate_resume'))
+
+    return render_template('candidate/upload_resume.html')

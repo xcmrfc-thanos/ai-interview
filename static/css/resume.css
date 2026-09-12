@@ -1,0 +1,139 @@
+/* 上传区域样式 */
+.upload-area {
+    border: 2px dashed #ddd;
+    border-radius: 10px;
+    padding: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+    border-color: var(--primary-color);
+    background: rgba(108, 99, 255, 0.05);
+}
+
+.upload-area i {
+    font-size: 48px;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.upload-area p {
+    margin-bottom: 5px;
+    color: var(--secondary-color);
+}
+
+/* 简历预览 */
+.resume-preview {
+    height: 500px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.resume-preview iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* 分析结果 */
+.analysis-result {
+    text-align: center;
+}
+
+.score-circle {
+    margin-bottom: 30px;
+}
+
+.circular-chart {
+    width: 150px;
+    height: 150px;
+}
+
+.circle-bg {
+    fill: none;
+    stroke: #eee;
+    stroke-width: 3;
+}
+
+.circle {
+    fill: none;
+    stroke: var(--primary-color);
+    stroke-width: 3;
+    stroke-linecap: round;
+    animation: progress 1s ease-out forwards;
+}
+
+.percentage {
+    fill: var(--secondary-color);
+    font-size: 0.5em;
+    text-anchor: middle;
+    font-weight: bold;
+}
+
+@keyframes progress {
+    0% {
+        stroke-dasharray: 0 100;
+    }
+}
+
+/* 技能匹配 */
+.analysis-details {
+    text-align: left;
+}
+
+.skill-match {
+    margin-bottom: 15px;
+}
+
+.skill-match span {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--secondary-color);
+    font-size: 0.9em;
+}
+
+.skill-match .progress {
+    height: 6px;
+    background: #eee;
+    border-radius: 3px;
+}
+
+.skill-match .progress-bar {
+    background: var(--primary-color);
+    border-radius: 3px;
+}
+
+/* 改进建议 */
+.suggestions {
+    margin-top: 15px;
+}
+
+.suggestion-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.suggestion-item i {
+    font-size: 20px;
+    margin-right: 10px;
+    margin-top: 2px;
+}
+
+.suggestion-item p {
+    margin: 0;
+    font-size: 0.9em;
+    color: var(--secondary-color);
+}
+
+/* 拖拽状态 */
+.upload-area.dragover {
+    border-color: var(--primary-color);
+    background: rgba(108, 99, 255, 0.1);
+} 

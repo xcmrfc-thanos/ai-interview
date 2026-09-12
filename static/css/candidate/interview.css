@@ -1,0 +1,365 @@
+/* 主要布局 */
+.main-content {
+    padding: 2rem;
+    background: var(--gray-50);
+}
+
+/* 页面标题区域 */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.page-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+/* 创建面试按钮 */
+.create-interview-btn {
+    background: #4A6CF7;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.create-interview-btn:hover {
+    background: #3955d1;
+}
+
+/* 分类标题 */
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-800);
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--gray-200);
+}
+
+/* 面试卡片网格布局 */
+.interview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* 面试卡片基础样式 */
+.interview-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.interview-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* 公司信息样式 */
+.company-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.company-info h4 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.company-info p {
+    margin: 5px 0 0;
+    color: #666;
+    font-size: 14px;
+}
+
+/* 面试状态样式 */
+.interview-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 状态标签样式 */
+.badge {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.badge.bg-success { background: #28A745 !important; }
+.badge.bg-warning { background: #FFC107 !important; }
+.badge.bg-secondary { background: #6C757D !important; }
+.badge.bg-info { background: #17A2B8 !important; }
+
+/* 按钮样式 */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn i {
+    font-size: 16px;
+}
+
+.btn-primary {
+    background: #4A6CF7;
+    border: none;
+    color: white;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background: #3955d1;
+}
+
+.btn-outline-primary {
+    border: 1px solid #4A6CF7;
+    background: transparent;
+    color: #4A6CF7;
+    flex: 1;
+}
+
+.btn-outline-primary:hover {
+    background: #4A6CF7;
+    color: white;
+}
+
+/* 禁用状态 */
+.btn:disabled {
+    background: #E9ECEF;
+    border-color: #E9ECEF;
+    color: #6C757D;
+    cursor: not-allowed;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .interview-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}
+
+/* 模态框基础样式 */
+.modal-content {
+    background: white;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+    border-radius: 16px 16px 0 0;
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.modal-header .btn-close {
+    padding: 8px;
+    margin: -8px -8px -8px auto;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.modal-header .btn-close:hover {
+    opacity: 1;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+/* 表单控件样式 */
+.form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #4a5568;
+    margin-bottom: 8px;
+}
+
+.form-select {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background-color: white;
+    color: #1a1a1a;
+    transition: all 0.2s;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 16px;
+}
+
+.form-select:hover {
+    border-color: #cbd5e0;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: #4A6CF7;
+    box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.1);
+}
+
+/* 技术栈选项样式 */
+.tech-stack-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.form-check {
+    position: relative;
+    padding: 0;
+    margin: 0;
+}
+
+.form-check-input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.form-check-label {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.form-check-label::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    border: 2px solid #cbd5e0;
+    border-radius: 4px;
+    margin-right: 10px;
+    transition: all 0.2s;
+}
+
+.form-check-input:checked + .form-check-label {
+    border-color: #4A6CF7;
+    background: rgba(74, 108, 247, 0.05);
+    color: #4A6CF7;
+}
+
+.form-check-input:checked + .form-check-label::before {
+    background-color: #4A6CF7;
+    border-color: #4A6CF7;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 12px;
+}
+
+/* 修改模态框底部按钮样式 */
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.modal-actions .btn {
+    flex: 1;
+    height: 44px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.modal-actions .btn-secondary {
+    background: #f8fafc;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+}
+
+.modal-actions .btn-secondary:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e0;
+}
+
+.modal-actions .btn-primary {
+    background: #4A6CF7;
+    color: white;
+    border: none;
+}
+
+.modal-actions .btn-primary:hover {
+    background: #3955d1;
+}
+
+/* 移除原有的modal-footer样式 */
+.modal-footer {
+    display: none;
+}
+
+/* 模态框动画效果 */
+.modal.fade .modal-dialog {
+    transform: scale(0.95);
+    opacity: 0;
+    transition: all 0.2s ease-out;
+}
+
+.modal.show .modal-dialog {
+    transform: scale(1);
+    opacity: 1;
+}
+
+ 

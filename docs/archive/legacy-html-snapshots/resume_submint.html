@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI面试官 - 简历投递</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/dashboard.css" rel="stylesheet">
+    <link href="/static/css/applicant/dashboard.css" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+    <div class="dashboard-container">
+        <!-- 侧边栏 -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class='bx bx-bot'></i>
+                    <span>AI面试官</span>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li>
+                    <a href="/applicant/dashboard">
+                        <i class='bx bxs-dashboard'></i>
+                        <span>控制台</span>
+                    </a>
+                </li>
+{#                <li>#}
+{#                    <a href="/applicant/sim_interview">#}
+{#                        <i class='bx bx-video'></i>#}
+{#                        <span>模拟面试</span>#}
+{#                    </a>#}
+{#                </li>#}
+                <li>
+                    <a href="/applicant/interview">
+                        <i class='bx bx-video'></i>
+                        <span>面试中心</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-bs-toggle="collapse" data-bs-target="#resumeMenu" aria-expanded="false" aria-controls="resumeMenu">
+                        <i class='bx bx-file'></i>
+                        <span>简历中心</span>
+                        <i class='bx bx-chevron-down'></i> <!-- 添加展开图标 -->
+                    </a>
+                    <ul class="collapse" id="resumeMenu">
+                        <li>
+                            <a href="/applicant/resume">
+                                <i class='bx bx-file'></i>
+                                <span>简历上传</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/applicant/analyze_resume">
+                                <i class='bx bx-file'></i>
+                                <span>简历分析</span>
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a href="/applicant/upload_resume">
+                                <i class='bx bx-file'></i>
+                                <span>投递简历</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/applicant/resume_manage">
+                                <i class='bx bx-file'></i>
+                                <span>简历管理</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+{#                <li>#}
+{#                    <a href="/applicant/reports">#}
+{#                        <i class='bx bx-line-chart'></i>#}
+{#                        <span>面试报告</span>#}
+{#                    </a>#}
+{#                </li>#}
+{#                <li>#}
+{#                    <a href="/applicant/interview_manage">#}
+{#                        <i class='bx bx-line-chart'></i>#}
+{#                        <span>面试管理</span>#}
+{#                    </a>#}
+{#                </li>#}
+
+
+{##}
+{#                <li>#}
+{#                    <a href="/applicant/personal_center">#}
+{#                        <i class='bx bx-user'></i>#}
+{#                        <span>个人中心</span>#}
+{#                    </a>#}
+{#                </li>#}
+            </ul>
+        </nav>
+
+        <!-- 主要内容区域 -->
+        <main class="main-content">
+            <div class="top-bar">
+                <div class="user-menu">
+                    <img src="{{ url_for('static', filename='applicant_logo/img.png') }}" alt="用户头像" class="avatar">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                            {{ user_name }}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="settings.html">个人设置</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="../common/login.html">退出登录</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <!-- 职位列表 -->
+                <div class="section-header">
+                    <h5>职位列表</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table" id="jobTable">
+                        <thead>
+                            <tr>
+                                <th>职位名称</th>
+                                <th>公司名称</th>
+                                <th>类型</th>
+                                <th>薪资范围</th>
+                                <th>发布时间</th>
+                                <th>截至日期</th>
+                                <th>地点</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- 职位列表将通过AJAX动态加载 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+<!-- 模态框 -->
+<!-- 模态框 -->
+<div class="modal fade" id="jobDetailsModal" tabindex="-1" aria-labelledby="jobDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="jobDetailsModalLabel">岗位详情</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" id="jobTitle"></h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><strong>公司名称:</strong> <span id="companyName"></span></li>
+                                    <li class="list-group-item"><strong>职位类型:</strong> <span id="jobType"></span></li>
+                                    <li class="list-group-item"><strong>薪资范围:</strong> <span id="salaryRange"></span></li>
+                                    <li class="list-group-item"><strong>地点:</strong> <span id="location"></span></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><strong>状态:</strong> <span id="status"></span></li>
+                                    <li class="list-group-item"><strong>发布时间:</strong> <span id="postDate"></span></li>
+                                    <li class="list-group-item"><strong>截至日期:</strong> <span id="expirationDate"></span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <h6>职位描述:</h6>
+                            <p id="description"></p>
+                        </div>
+                        <div class="mt-3">
+                            <h6>岗位要求:</h6>
+                            <p id="requirements"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    let submittedJobIds = [];
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // 获取已投递的职位列表
+        fetch('/api/get_submitted_jobs')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    submittedJobIds = data.job_ids;
+                }
+            })
+            .catch(error => console.error('Error fetching submitted jobs:', error));
+
+        // 获取职位列表
+        fetch('/api/get_all_jobs')
+            .then(response => response.json())
+            .then(data => {
+                const jobTableBody = document.querySelector('#jobTable tbody');
+                data.jobs.forEach(job => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${job.title}</td>
+                        <td>${job.company_name}</td>
+                        <td>${job.job_type}</td>
+                        <td>${job.min_salary} - ${job.max_salary}</td>
+                        <td>${job.post_date}</td>
+                        <td>${job.expiration_date}</td>
+                        <td>${job.location}</td>
+                        <td><span class="status ${job.status}">${job.status === 'active' ? '招聘中' : '已关闭'}</span></td>
+                        <td>
+                            ${job.applied ?
+                                '<button class="btn btn-secondary disabled">已投递</button>' :
+                                `<button class="btn btn-primary apply-btn" data-job-id="${job.id}" data-job-title="${job.title}">投递简历</button>`
+                            }
+                            <button class="btn btn-primary btn-sm view-job-details" data-job-id="${job.id}">查看岗位信息</button>
+                        </td>
+                    `;
+                    jobTableBody.appendChild(row);
+                });
+
+                // 投递简历按钮点击事件
+                const applyButtons = document.querySelectorAll('.apply-btn');
+                applyButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const jobId = this.getAttribute('data-job-id');
+                        const jobTitle = this.getAttribute('data-job-title');
+
+                        // 获取用户简历列表
+                        fetch('/api/get_resumes')
+                            .then(response => response.json())
+                            .then(data => {
+                                if (!data.success) {
+                                    alert('获取简历失败');
+                                    return;
+                                }
+
+                                const resumes = data.resumes;
+                                if (resumes.length === 0) {
+                                    alert('请先上传简历');
+                                    return;
+                                }
+
+                                // 创建模态框内容
+                                const modalContent = `
+                                    <div class="modal fade" id="submitResumeModal" tabindex="-1" aria-labelledby="submitResumeModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="submitResumeModalLabel">投递简历 - ${jobTitle}</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form id="submitResumeForm">
+                                                        <div class="mb-3">
+                                                            <label for="resumeSelect" class="form-label">选择简历</label>
+                                                            <select class="form-select" id="resumeSelect" name="resumeSelect" required>
+                                                                ${resumes.map(resume => `<option value="${resume.id}">${resume.filename}</option>`).join('')}
+                                                            </select>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary">提交</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+
+                                // 将模态框添加到页面
+                                document.body.insertAdjacentHTML('beforeend', modalContent);
+
+                                // 显示模态框
+                                const modal = new bootstrap.Modal(document.getElementById('submitResumeModal'));
+                                modal.show();
+
+                                // 提交表单事件
+                                document.getElementById('submitResumeForm').addEventListener('submit', function(event) {
+                                    event.preventDefault();
+                                    const resumeId = document.getElementById('resumeSelect').value;
+
+                                    // 提交投递请求
+                                    fetch('/api/resume_submit', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({ job_id: jobId, resume_id: resumeId })
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            alert('简历投递成功');
+                                            modal.hide();
+                                            // 更新已投递职位列表
+                                            submittedJobIds.push(jobId);
+                                            // 更新按钮状态
+                                            const button = document.querySelector(`.apply-btn[data-job-id="${jobId}"]`);
+                                            if (button) {
+                                                button.classList.remove('btn-primary');
+                                                button.classList.add('btn-secondary');
+                                                button.classList.add('disabled');
+                                                button.textContent = '已投递';
+                                            }
+                                        } else {
+                                            alert('简历投递失败');
+                                        }
+                                    });
+                                });
+                            });
+                    });
+                });
+
+                // 查看岗位信息按钮点击事件
+                const viewJobDetailsButtons = document.querySelectorAll('.view-job-details');
+                viewJobDetailsButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const jobId = this.getAttribute('data-job-id');
+
+                        // 获取岗位详细信息
+                        fetch(`/api/get_job_details?job_id=${jobId}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    const job = data.job;
+                                    document.getElementById('jobTitle').textContent = job.title;
+                                    document.getElementById('companyName').textContent = job.company_name;
+                                    document.getElementById('jobType').textContent = job.job_type;
+                                    document.getElementById('salaryRange').textContent = `${job.min_salary} - ${job.max_salary}`;
+                                    document.getElementById('location').textContent = job.location;
+                                    document.getElementById('status').textContent = job.status === 'active' ? '招聘中' : '已关闭';
+                                    document.getElementById('postDate').textContent = job.post_date;
+                                    document.getElementById('expirationDate').textContent = job.expiration_date || '无';
+                                    document.getElementById('description').textContent = job.description;
+                                    document.getElementById('requirements').textContent = job.requirements;
+
+                                    // 显示模态框
+                                    const modal = new bootstrap.Modal(document.getElementById('jobDetailsModal'));
+                                    modal.show();
+                                } else {
+                                    alert('获取岗位详情失败');
+                                }
+                            })
+                            .catch(error => console.error('Error fetching job details:', error));
+                    });
+                });
+            });
+    });
+</script>
+
+</body>
+</html>

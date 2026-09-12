@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Copilot 音频采集检查</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    body { max-width: 760px; margin: 0 auto; padding: 24px; color: #17202a; background: #f4f6f8; }
+    main { background: #fff; border: 1px solid #dfe4ea; padding: 24px; border-radius: 8px; }
+    h1 { margin-top: 0; font-size: 1.35rem; }
+    button { padding: 10px 16px; border: 0; border-radius: 6px; color: #fff; background: #1769aa; cursor: pointer; }
+    button[disabled] { background: #9aa6b2; cursor: not-allowed; }
+    dl { display: grid; grid-template-columns: 150px 1fr; gap: 8px 16px; }
+    dt { color: #586575; }
+    dd { margin: 0; word-break: break-word; }
+    pre { min-height: 160px; padding: 12px; overflow: auto; background: #101820; color: #e7edf3; border-radius: 6px; }
+    .notice { padding: 10px 12px; border-left: 4px solid #d98e04; background: #fff7df; }
+    .ok { border-left-color: #2e8b57; background: #eaf8ef; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Copilot 音频采集检查</h1>
+  <p class="notice">请让面试手机开启扬声器，并将本设备放在 20-50cm 内。此页面只检查麦克风能否采到现场声音，不上传音频。</p>
+  <button id="start" type="button">开始采集检查</button>
+  <button id="stop" type="button" disabled>停止</button>
+  <dl>
+    <dt>浏览器</dt><dd id="browser"></dd>
+    <dt>安全上下文</dt><dd id="secure"></dd>
+    <dt>输入设备</dt><dd id="device"></dd>
+    <dt>采样率</dt><dd id="sampleRate"></dd>
+    <dt>PCM 帧计数</dt><dd id="frames">0</dd>
+    <dt>累计时长</dt><dd id="duration">0 秒</dd>
+  </dl>
+  <pre id="log" aria-live="polite"></pre>
+</main>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  let recorder;
+  let frameCount = 0;
+  let startedAt = 0;
+  let timer;
+  const log = (message) => {
+    const line = `[${new Date().toLocaleTimeString()}] ${message}`;
+    $('log').textContent = `${line}\n${$('log').textContent}`;
+  };
+  $('browser').textContent = navigator.userAgent;
+  $('secure').textContent = window.isSecureContext ? '是' : '否（手机通常需要 HTTPS 或 localhost）';
+
+  function pcmBytes(buffer) {
+    return buffer instanceof ArrayBuffer ? buffer.byteLength : 0;
+  }
+
+  async function start() {
+    if (!navigator.mediaDevices?.getUserMedia) {
+      log('当前浏览器不支持 getUserMedia');
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+      const track = stream.getAudioTracks()[0];
+      const settings = track.getSettings();
+      $('device').textContent = settings.deviceId || track.label || '未知';
+      const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
+      const audioContext = new AudioContextCtor();
+      $('sampleRate').textContent = `${audioContext.sampleRate} Hz（RecorderManager 会重采样到 16000 Hz）`;
+      recorder = new RecorderManager('/static/js/iat');
+      frameCount = 0;
+      startedAt = Date.now();
+      recorder.onFrameRecorded = ({ frameBuffer, isLastFrame }) => {
+        if (pcmBytes(frameBuffer)) frameCount += 1;
+        $('frames').textContent = String(frameCount);
+        if (isLastFrame) log('收到最后一帧 PCM');
+      };
+      recorder.onStart = () => log('录音开始；请让面试手机播放一段语音');
+      await recorder.start({ sampleRate: 16000, frameSize: 1280, arrayBufferType: 'short16' });
+      $('start').disabled = true;
+      $('stop').disabled = false;
+      timer = window.setInterval(() => {
+        $('duration').textContent = `${Math.floor((Date.now() - startedAt) / 1000)} 秒`;
+      }, 500);
+      window.__copilotCapture = { stream, audioContext, recorder };
+    } catch (error) {
+      log(`采集失败：${error.name || 'Error'} ${error.message || error}`);
+    }
+  }
+
+  function stop() {
+    if (!recorder) return;
+    recorder.stop();
+    window.__copilotCapture?.stream?.getTracks().forEach((track) => track.stop());
+    window.__copilotCapture?.audioContext?.close();
+    window.clearInterval(timer);
+    $('start').disabled = false;
+    $('stop').disabled = true;
+    log(`采集结束，共收到 ${frameCount} 个 PCM 帧`);
+  }
+
+  $('start').addEventListener('click', start);
+  $('stop').addEventListener('click', stop);
+})();
+</script>
+<script src="/static/js/iat/index.umd.js"></script>
+</body>
+</html>

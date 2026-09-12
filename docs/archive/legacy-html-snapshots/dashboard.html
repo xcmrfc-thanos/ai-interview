@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI面试官 - 控制台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/dashboard.css" rel="stylesheet">
+    <link href="/static/css/candidate/dashboard.css" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+    <div class="dashboard-container">
+        <!-- 侧边栏 -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class='bx bx-bot'></i>
+                    <span>AI面试官</span>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li class="active">
+                    <a href="#">
+                        <i class='bx bxs-dashboard'></i>
+                        <span>控制台</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/applicant/sim_interview">
+                        <i class='bx bx-video'></i>
+                        <span>模拟面试</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/applicant/interview">
+                        <i class='bx bx-video'></i>
+                        <span>面试中心</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-bs-toggle="collapse" data-bs-target="#resumeMenu" aria-expanded="false" aria-controls="resumeMenu">
+                        <i class='bx bx-file'></i>
+                        <span>简历相关</span>
+                        <i class='bx bx-chevron-down'></i> <!-- 添加展开图标 -->
+                    </a>
+                    <ul class="collapse" id="resumeMenu">
+                        <li>
+                            <a href="/applicant/resume">
+                                <i class='bx bx-file'></i>
+                                <span>简历上传</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/applicant/analyze_resume">
+                                <i class='bx bx-file'></i>
+                                <span>简历分析</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/applicant/upload_resume">
+                                <i class='bx bx-file'></i>
+                                <span>投递简历</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/applicant/resume_manage">
+                                <i class='bx bx-file'></i>
+                                <span>简历管理</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/applicant/reports">
+                        <i class='bx bx-line-chart'></i>
+                        <span>面试报告</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/applicant/interview_manage">
+                        <i class='bx bx-line-chart'></i>
+                        <span>面试管理</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/applicant/personal_center">
+                        <i class='bx bx-user'></i>
+                        <span>个人中心</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- 在sidebar后面添加 -->
+        <div class="sidebar-overlay"></div>
+
+        <!-- 主要内容区域 -->
+        <main class="main-content">
+            <div class="top-bar">
+                <div class="user-menu">
+                    <img src="{{ url_for('static', filename='applicant_logo/img.png') }}" alt="用户头像" class="avatar">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                            {{ full_name }}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="profile.html">个人设置</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/logout">退出登录</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <!-- 数据概览 -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class='bx bx-time-five'></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>12</h3>
+                            <p>面试次数</p>
+                        </div>
+                        <div class="stat-chart">
+                            <div class="progress-ring">
+                                <svg>
+                                    <circle class="progress-ring-circle" cx="30" cy="30" r="28"></circle>
+                                </svg>
+                                <span>75%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class='bx bx-trending-up'></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>85</h3>
+                            <p>平均分数</p>
+                        </div>
+                        <div class="stat-trend positive">
+                            <i class='bx bx-up-arrow-alt'></i>
+                            <span>5%</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class='bx bx-badge-check'></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>8</h3>
+                            <p>完成任务</p>
+                        </div>
+                        <div class="stat-progress">
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 图表区域 -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="card-header">
+                            <h5>面试得分趋势</h5>
+                            <div class="card-actions">
+                                <button class="btn btn-icon">
+                                    <i class='bx bx-dots-vertical-rounded'></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="scoreChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="card-header">
+                            <h5>技能评估</h5>
+                            <div class="card-actions">
+                                <button class="btn btn-icon">
+                                    <i class='bx bx-dots-vertical-rounded'></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="skillChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 最近面试 -->
+                <div class="recent-interviews">
+                    <div class="section-header">
+                        <h5>最近面试</h5>
+                        <a href="/applicant/interview_manage" class="btn-link">查看全部</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>职位</th>
+                                    <th>时间</th>
+                                    <th>得分</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="interviewTableBody">
+                                <!-- 面试数据将通过AJAX动态加载 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取面试列表
+            fetch('/api/get_application')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const interviewTableBody = document.querySelector('#interviewTableBody');
+                        data.recent_interviews.forEach(interview => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${interview.job_title}</td>
+                                <td>${new Date(interview.apply_time).toLocaleDateString()}</td>
+                                <td>
+                                    ${interview.status in ['已查看', '面试中'] ? `
+                                        <div class="score">
+                                            <span class="score-value">暂无</span>
+                                            <div class="score-bar" style="--score-width: 0%"></div>
+                                        </div>
+                                    ` : `
+                                        <div class="score">
+                                            <span class="score-value">${interview.ai_evaluation_score}</span>
+                                            <div class="score-bar" style="--score-width: ${interview.ai_evaluation_score}%"></div>
+                                        </div>
+                                    `}
+                                </td>
+                                <td><span class="status ${interview.status}">${interview.status}</span></td>
+                                <td>
+                                    ${interview.status == '已查看' ? `
+                                        <a href="#" class="btn btn-outline-primary">催确认</a>
+                                    ` : interview.status == '面试中' ? `
+                                        <a href="#" class="btn btn-outline-primary">参加面试</a>
+                                    ` : `
+                                        <a href="/applicant/reports" class="btn btn-outline-primary">查看报告</a>
+                                    `}
+                                </td>
+                            `;
+                            interviewTableBody.appendChild(row);
+                        });
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching interview data:', error);
+                    alert('获取面试数据失败');
+                });
+        });
+    </script>
+</body>
+</html>
